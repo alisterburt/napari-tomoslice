@@ -81,8 +81,9 @@ class TomoSliceWidget(QWidget):
             self.close_tomogram_button.setDisabled(True)
             self.open_tomogram_button.setEnabled(True)
 
+
     def _on_thickness_slider_changed(self):
-        self.tomoslice.plane_layer.experimental_slicing_plane.thickness = self.thickness_slider.value()
+        self.tomoslice.plane_thickness = self.thickness_slider.value()
 
 
 @napari_hook_implementation

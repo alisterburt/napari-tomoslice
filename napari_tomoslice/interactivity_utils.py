@@ -1,7 +1,6 @@
 import numpy as np
 
-from napari.utils.geometry import project_point_onto_plane, \
-    clamp_point_to_bounding_box
+from napari.utils.geometry import project_point_onto_plane
 
 
 def point_in_bounding_box(point: np.ndarray, bounding_box: np.ndarray) -> bool:
@@ -69,30 +68,11 @@ def drag_data_to_projected_distance(
     return np.einsum('j, ij -> i', drag_vector_canvas, vector).squeeze()
 
 
-
-    start_point, end_point = layer.get_ray_intersections(
-        position=current_position,
-        view_direction=current_view_direction,
-        dims_displayed=list(current_dims_displayed),
-    )
-    if start_point is None and end_point is None:
-        new_plane_position = np.array(layer.data.shape) // 2
-    else:
-        new_plane_position = \
-            layer.experimental_slicing_plane.intersect_with_line(
-            line_position=start_point,
-            line_direction=current_view_direction,
-        )
-    if point_in_layer_bounding_box(new_plane_position, layer) is False:
-        new_plane_position = np.array(layer.data.shape) // 2
-
-    layer.experimental_slicing_plane.position = new_plane_position
-    layer.experimental_slicing_plane.normal = axis_to_normal[axis]
-
-
 def point_in_layer_bounding_box(point, layer):
     bbox = layer._display_bounding_box(layer._dims_displayed).T
     if np.any(point < bbox[0]) or np.any(point > bbox[1]):
         return False
     else:
         return True
+
+

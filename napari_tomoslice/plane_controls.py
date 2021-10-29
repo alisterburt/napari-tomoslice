@@ -1,13 +1,12 @@
 from typing import Optional
 
-import napari
 import napari.layers
 import napari.viewer
 import numpy as np
 from napari.utils.geometry import clamp_point_to_bounding_box
 
 from napari_tomoslice.interactivity_utils import point_in_bounding_box, \
-    drag_data_to_projected_distance
+    drag_data_to_projected_distance, point_in_layer_bounding_box
 
 
 def shift_plane_along_normal(viewer, event, layer: Optional[napari.layers.Image] = None):
@@ -93,12 +92,17 @@ def set_plane_normal_axis(viewer: napari.viewer.Viewer, layer: napari.layers.Ima
         dims_displayed=list(current_dims_displayed),
     )
     if start_point is None and end_point is None:
-        layer.experimental_slicing_plane.position = np.array(layer.data.shape) // 2
+        # click did not intersect layer bounding box
+        new_plane_position = np.array(layer.data.shape) // 2
     else:
-        intersection = layer.experimental_slicing_plane.intersect_with_line(
+        new_plane_position = \
+            layer.experimental_slicing_plane.intersect_with_line(
             line_position=start_point,
             line_direction=current_view_direction,
         )
-        layer.experimental_slicing_plane.position = intersection
+    if point_in_layer_bounding_box(new_plane_position, layer) is False:
+        # intersection can fall outside layer bounding box
+        new_plane_position = np.array(layer.data.shape) // 2
 
+    layer.experimental_slicing_plane.position = new_plane_position
     layer.experimental_slicing_plane.normal = axis_to_normal[axis]
