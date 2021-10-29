@@ -12,7 +12,7 @@ from qtpy.QtCore import Qt
 from qtpy.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QPushButton, QFileDialog, QLabel
 from superqt import QLabeledDoubleSlider
 
-from .tomoslice import TomoSlice
+from napari_tomoslice.tomoslice import TomoSlice
 
 
 class TomoSliceWidget(QWidget):
@@ -91,6 +91,7 @@ class TomoSliceWidget(QWidget):
 
     def _on_thickness_slider_changed(self):
         self.tomoslice.plane_layer.experimental_slicing_plane.thickness = self.thickness_slider.value()
+
 
 @napari_hook_implementation
 def napari_experimental_provide_dock_widget():

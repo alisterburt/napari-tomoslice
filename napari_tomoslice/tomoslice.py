@@ -1,4 +1,3 @@
-from pathlib import Path
 from typing import Optional
 from functools import partial
 
@@ -6,9 +5,8 @@ import napari
 import napari.layers
 import mrcfile
 import numpy as np
-import typer
 
-from .interactivity_utils import shift_plane_along_normal, set_plane_normal_axis
+from .plane_controls import shift_plane_along_normal, set_plane_normal_axis
 
 
 class TomoSlice:
@@ -76,25 +74,3 @@ class TomoSlice:
             self.viewer.keymap.pop(key.upper())
 
 
-cli = typer.Typer()
-
-
-@cli.command()
-def napari_tomoslice(tomogram_file: Path = typer.Argument(
-        None,
-        exists=True,
-        file_okay=True,
-        readable=True,
-)):
-    """An interactive tomogram slice viewer in napari.
-
-    Controls:
-    x/y/z - align normal vector along x/y/z axis
-    click and drag plane - shift plane along its normal vector
-    """
-    viewer = napari.Viewer()
-    _, tomoslice_widget = viewer.window.add_plugin_dock_widget(plugin_name='napari-tomoslice')
-    if tomogram_file is not None:
-        tomoslice_widget.tomoslice.open_tomogram(tomogram_file)
-        tomoslice_widget.update_widget_visibility(tomogram_opened=True)
-    napari.run()
