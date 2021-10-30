@@ -86,6 +86,7 @@ class TomoSliceWidget(QWidget):
         self.tomoslice.plane_thickness = self.thickness_slider.value()
 
 
+
 @napari_hook_implementation
 def napari_experimental_provide_dock_widget():
     widget_options = {

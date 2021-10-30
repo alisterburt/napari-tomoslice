@@ -1,3 +1,7 @@
+from typing import Optional
+
+import napari
+import napari.layers
 import numpy as np
 
 from napari.utils.geometry import project_point_onto_plane
