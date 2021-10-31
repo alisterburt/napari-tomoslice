@@ -7,10 +7,10 @@ import napari
 import napari.layers
 import numpy as np
 from napari.utils.misc import StringEnum
-from napari.layers import Shapes
+from psygnal import Signal
 
 from .plane_controls import shift_plane_along_normal, set_plane_normal_axis
-from psygnal import Signal
+from .points_controls import add_point
 
 
 class RenderingMode(StringEnum):
@@ -114,9 +114,8 @@ class TomoSlice:
     def if_plane_enabled(self, func):
         """Decorator for conditional execution of callbacks.
         """
-
         def inner(*args, **kwargs):
-            if self.volume_layer.experimental_slicing_plane.enabled:
+            if self.volume_layer.experimental_slicing_plane.enabled and self.volume_layer.visible:
                 return func(*args, **kwargs)
 
         return inner
@@ -145,6 +144,15 @@ class TomoSlice:
         )
         self.volume_layer.experimental_slicing_plane.events.thickness.connect(
             partial(self.plane_thickness_changed.emit, self.plane_thickness)
+        )
+
+        # add points
+        self.viewer.bind_key(
+            'c',
+            partial(
+                self.if_plane_enabled(add_point),
+                volume_layer=self.volume_layer
+            )
         )
 
     def disconnect_callbacks(self):
