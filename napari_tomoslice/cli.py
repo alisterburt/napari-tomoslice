@@ -19,6 +19,7 @@ def napari_tomoslice(tomogram_file: Path = typer.Argument(
     x/y/z - align normal vector along x/y/z axis
     click and drag plane - shift plane along its normal vector
     alt-click - add point on plane (if points layer is active)
+    o - align plane normal to view direction
     """
     viewer = napari.Viewer()
     _, tomoslice_widget = viewer.window.add_plugin_dock_widget(

@@ -36,6 +36,7 @@ Usage: napari-tomoslice [TOMOGRAM_FILE]
   x/y/z - align normal vector along x/y/z axis 
   click and drag - shift plane along its normal vector
   alt-click - add point on plane (if points layer is active)
+  o - align plane normal to view direction
 
 Arguments:
   [TOMOGRAM_FILE]
