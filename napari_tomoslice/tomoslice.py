@@ -7,6 +7,7 @@ import napari
 import napari.layers
 import numpy as np
 from napari.utils.misc import StringEnum
+from napari.layers import Shapes
 
 from .plane_controls import shift_plane_along_normal, set_plane_normal_axis
 from psygnal import Signal
@@ -25,6 +26,7 @@ class TomoSlice:
         self.viewer = viewer
         self.viewer.dims.ndisplay = 3
         self.volume_layer: Optional[napari.layers.Image] = None
+        self.bounding_box_layer: Optional[napari.layers.Points] = None
         self._rendering_mode: RenderingMode = RenderingMode.VOLUME
 
     @property
@@ -57,14 +59,17 @@ class TomoSlice:
         with mrcfile.open(tomogram_file) as mrc:
             tomogram = mrc.data
         self.add_volume_layer(tomogram)
+        self.add_bounding_box()
         self.connect_callbacks()
         self.viewer.reset_view()
         self.viewer.camera.angles = (140, -55, -140)
         self.viewer.camera.zoom = 0.8
+        self.viewer.layers.selection.active = self.volume_layer
 
     def close_tomogram(self):
         self.disconnect_callbacks()
         self.viewer.layers.remove(self.volume_layer)
+        self.viewer.layers.remove(self.bounding_box_layer)
 
     def add_volume_layer(self, tomogram: np.ndarray):
         render_as_plane = True if self.rendering_mode == RenderingMode.PLANE else False
@@ -80,6 +85,30 @@ class TomoSlice:
             colormap='gray_r',
             rendering='mip',
             experimental_slicing_plane=plane_parameters,
+        )
+
+    def add_bounding_box(self):
+        bounding_box_max = self.volume_layer.data.shape
+        bounding_box_points = np.array(
+            [
+                [0, 0, 0],
+                [0, 0, bounding_box_max[2]],
+                [0, bounding_box_max[1], 0],
+                [bounding_box_max[0], 0, 0],
+                [bounding_box_max[0], bounding_box_max[1], 0],
+                [bounding_box_max[0], 0, bounding_box_max[2]],
+                [0, bounding_box_max[1], bounding_box_max[2]],
+                [bounding_box_max[0], bounding_box_max[1], bounding_box_max[2]]
+            ]
+        )
+        self.bounding_box_layer = self.viewer.add_points(
+            data=bounding_box_points,
+            name='bounding box',
+            blending='opaque',
+            face_color='cornflowerblue',
+            edge_color='black',
+            edge_width=2,
+            size=10,
         )
 
     def if_plane_enabled(self, func):
