@@ -21,7 +21,7 @@ def napari_tomoslice(tomogram_file: Path = typer.Argument(
     """
     viewer = napari.Viewer()
     _, tomoslice_widget = viewer.window.add_plugin_dock_widget(
-        plugin_name='slicer'
+        plugin_name='napari-tomoslice'
     )
     if tomogram_file is not None:
         tomoslice_widget.tomoslice.open_tomogram(tomogram_file)

@@ -1,11 +1,13 @@
 from functools import partial
+from typing import Sequence
 
 from qtpy.QtWidgets import QWidget, QPushButton, QHBoxLayout, QLabel
-from typing import Callable, Tuple, Sequence, Optional
+
+from .typing import ButtonData
 
 
 class LabeledSelectableButtonList(QWidget):
-    def __init__(self, button_data: Sequence[Tuple[str, Optional[Callable]]], label: Optional[str]):
+    def __init__(self, label: str, button_data: Sequence[ButtonData]):
         super().__init__()
         self.setLayout(QHBoxLayout())
         self.label = label
@@ -22,6 +24,7 @@ class LabeledSelectableButtonList(QWidget):
             button.clicked.connect(
                 partial(self.set_selected, button=button)
             )
+        self.layout().setContentsMargins(2, 2, 2, 2)
 
     def set_selected(self, button: QPushButton):
         button.setChecked(True)

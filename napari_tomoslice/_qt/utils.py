@@ -7,3 +7,11 @@ def change_enabled_with_opacity(widget: QWidget, enabled: bool):
     opacity = QGraphicsOpacityEffect(widget)
     opacity.setOpacity(1 if enabled else 0.5)
     widget.setGraphicsEffect(opacity)
+
+
+def disable_with_opacity(widget: QWidget):
+    change_enabled_with_opacity(widget, enabled=False)
+
+
+def enable_with_opacity(widget: QWidget):
+    change_enabled_with_opacity(widget, enabled=True)

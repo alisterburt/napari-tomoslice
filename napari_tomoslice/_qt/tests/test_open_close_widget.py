@@ -1,4 +1,4 @@
-from ..open_close_widget import OpenCloseButtonsWidget
+from ..open_close_buttons import OpenCloseButtonsWidget
 from unittest.mock import MagicMock
 from qtpy.QtCore import Qt
 

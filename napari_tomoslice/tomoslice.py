@@ -88,7 +88,7 @@ class TomoSlice:
 
         def inner(*args, **kwargs):
             if self.volume_layer.experimental_slicing_plane.enabled:
-                func(*args, **kwargs)
+                return func(*args, **kwargs)
 
         return inner
 
@@ -112,10 +112,10 @@ class TomoSlice:
 
         #
         self.volume_layer.experimental_slicing_plane.events.enabled.connect(
-            partial(self.rendering_mode_changed.emit, value=self.rendering_mode)
+            partial(self.rendering_mode_changed.emit, self.rendering_mode)
         )
         self.volume_layer.experimental_slicing_plane.events.thickness.connect(
-            partial(self.plane_thickness_changed.emit, value=self.plane_thickness)
+            partial(self.plane_thickness_changed.emit, self.plane_thickness)
         )
 
     def disconnect_callbacks(self):

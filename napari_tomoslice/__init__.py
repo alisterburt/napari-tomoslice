@@ -4,5 +4,5 @@ try:
 except ImportError:
     __version__ = "unknown"
 
-from ._qt.dock_widget import napari_experimental_provide_dock_widget
+from ._qt.tomoslice import napari_experimental_provide_dock_widget
 
