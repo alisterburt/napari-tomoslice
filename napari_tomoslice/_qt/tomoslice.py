@@ -16,6 +16,9 @@ class TomoSliceWidget(QWidget):
         super().__init__()
         self.viewer = viewer
         self.tomoslice = TomoSlice(viewer)
+        self.tomoslice.plane_thickness_changed.connect(
+            self._on_plane_thickness_changed
+        )
 
         self.open_close_buttons = OpenCloseButtonsWidget(
             open_button=('open tomogram', self._on_tomogram_open),
@@ -89,6 +92,11 @@ class TomoSliceWidget(QWidget):
 
     def _on_thickness_slider_changed(self):
         self.tomoslice.plane_thickness = self.plane_thickness_controls.slider.value()
+
+    def _on_plane_thickness_changed(self):
+        self.plane_thickness_controls.slider.setValue(
+            self.tomoslice.plane_thickness
+        )
 
 
 @napari_hook_implementation
