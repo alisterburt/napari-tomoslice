@@ -15,7 +15,8 @@ def shift_plane_along_normal(viewer, event, layer: Optional[napari.layers.Image]
     clicked and dragged."""
     # Calculate intersection of click with plane through data in data coordinates
     intersection = layer.experimental_slicing_plane.intersect_with_line(
-        line_position=viewer.cursor.position, line_direction=viewer.cursor._view_direction
+        line_position=event.position,
+        line_direction=event.view_direction
     )
 
     # Check if click was on plane by checking if intersection occurs within
@@ -60,32 +61,23 @@ def shift_plane_along_normal(viewer, event, layer: Optional[napari.layers.Image]
     layer.interactive = True
 
 
-def set_plane_normal_axis(viewer: napari.viewer.Viewer, layer: napari.layers.Image, axis='z'):
-    current_position = viewer.cursor.position
-    current_view_direction = viewer.cursor._view_direction
-    current_dims_displayed = viewer.dims.displayed
-
+def set_plane_normal_axis(
+        viewer: napari.viewer.Viewer,
+        layer: napari.layers.Image,
+        axis='z'
+):
     axis_to_normal = {
         'z': (1, 0, 0),
         'y': (0, 1, 0),
         'x': (0, 0, 1),
     }
 
-    start_point, end_point = layer.get_ray_intersections(
-        position=current_position,
-        view_direction=current_view_direction,
-        dims_displayed=list(current_dims_displayed),
-    )
-    if start_point is None and end_point is None:
-        # click did not intersect volume_layer bounding box
-        new_plane_position = np.array(layer.data.shape) // 2
-    else:
-        new_plane_position = \
+    new_plane_position = \
             layer.experimental_slicing_plane.intersect_with_line(
-            line_position=start_point,
-            line_direction=current_view_direction,
+            line_position=viewer.cursor.position,
+            line_direction=viewer.camera.view_direction,
         )
-    if point_in_layer_bounding_box(new_plane_position, layer) is False:
+    if not point_in_layer_bounding_box(new_plane_position, layer):
         # intersection can fall outside volume_layer bounding box
         new_plane_position = np.array(layer.data.shape) // 2
 
