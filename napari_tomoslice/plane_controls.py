@@ -73,7 +73,7 @@ def set_plane_normal_axis(
     }
 
     new_plane_position = \
-            layer.experimental_slicing_plane.intersect_with_line(
+        layer.experimental_slicing_plane.intersect_with_line(
             line_position=viewer.cursor.position,
             line_direction=viewer.camera.view_direction,
         )
@@ -83,3 +83,11 @@ def set_plane_normal_axis(
 
     layer.experimental_slicing_plane.position = new_plane_position
     layer.experimental_slicing_plane.normal = axis_to_normal[axis]
+
+
+def orient_plane_perpendicular_to_camera(
+        viewer: napari.viewer.Viewer,
+        layer: napari.layers.Image
+):
+    layer.experimental_slicing_plane.position = np.array(layer.data.shape) // 2
+    layer.experimental_slicing_plane.normal = viewer.camera.view_direction
