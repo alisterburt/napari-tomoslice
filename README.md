@@ -37,6 +37,7 @@ Usage: napari-tomoslice [TOMOGRAM_FILE]
   click and drag - shift plane along its normal vector
   alt-click - add point on plane (if points layer is active)
   o - align plane normal to view direction
+  [] - decrease/increase plane thickness
 
 Arguments:
   [TOMOGRAM_FILE]

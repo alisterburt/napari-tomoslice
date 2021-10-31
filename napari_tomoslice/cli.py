@@ -20,6 +20,7 @@ def napari_tomoslice(tomogram_file: Path = typer.Argument(
     click and drag plane - shift plane along its normal vector
     alt-click - add point on plane (if points layer is active)
     o - align plane normal to view direction
+    [] - decrease/increase plane thickness
     """
     viewer = napari.Viewer()
     _, tomoslice_widget = viewer.window.add_plugin_dock_widget(
