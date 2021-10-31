@@ -114,6 +114,7 @@ class TomoSlice:
     def if_plane_enabled(self, func):
         """Decorator for conditional execution of callbacks.
         """
+
         def inner(*args, **kwargs):
             if self.volume_layer.experimental_slicing_plane.enabled and self.volume_layer.visible:
                 return func(*args, **kwargs)
@@ -122,13 +123,14 @@ class TomoSlice:
 
     def connect_callbacks(self):
         # plane click and drag
-        self._mouse_drag_callback = partial(
+        self._shift_plane_callback = partial(
             self.if_plane_enabled(shift_plane_along_normal),
             layer=self.volume_layer
         )
         self.viewer.mouse_drag_callbacks.append(
-            self._mouse_drag_callback
+            self._shift_plane_callback
         )
+
         # plane orientation
         for key in 'xyz':
             callback = partial(
@@ -146,16 +148,16 @@ class TomoSlice:
             partial(self.plane_thickness_changed.emit, self.plane_thickness)
         )
 
-        # add points
-        self.viewer.bind_key(
-            'c',
-            partial(
-                self.if_plane_enabled(add_point),
-                volume_layer=self.volume_layer
-            )
+        # add point in points layer on alt-click
+        self._add_point_callback = partial(
+            self.if_plane_enabled(add_point),
+            volume_layer=self.volume_layer
+        )
+        self.viewer.mouse_drag_callbacks.append(
+            self._add_point_callback
         )
 
     def disconnect_callbacks(self):
-        self.viewer.mouse_drag_callbacks.remove(self._mouse_drag_callback)
+        self.viewer.mouse_drag_callbacks.remove(self._shift_plane_callback)
         for key in 'xyz':
             self.viewer.keymap.pop(key.upper())
