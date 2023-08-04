@@ -1,0 +1,21 @@
+{
+  "template": "https://github.com/tlambert03/pyrepo-cookiecutter",
+  "commit": "a464b9946d054b0769a71daa07a3c1ad9c50ea3e",
+  "checkout": null,
+  "context": {
+    "cookiecutter": {
+      "full_name": "Alister Burt",
+      "email": "alisterburt@gmail.com",
+      "github_username": "alisterburt",
+      "project_name": "napari-tomoslice",
+      "project_slug": "napari_tomoslice",
+      "project_short_description": "Tomogram visualisation and annotation in napari.",
+      "pypi_username": "alisterburt",
+      "_copy_without_render": [
+        ".github/workflows/*"
+      ],
+      "_template": "https://github.com/tlambert03/pyrepo-cookiecutter"
+    }
+  },
+  "directory": null
+}
