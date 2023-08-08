@@ -1,7 +1,7 @@
 CLI_NAME = 'napari-tomoslice'
 
 # default volume layer parameters
-IMAGE_LAYER_NAME = 'tomogram'
+TOMOGRAM_LAYER_NAME = 'tomogram'
 PLANE_NORMAL_VECTOR = (1, 0, 0)
 PLANE_THICKNESS = 1
 
