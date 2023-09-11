@@ -17,7 +17,7 @@ from psygnal import Signal
 from napari_tomoslice._constants import TOMOGRAM_FILE_FILTER
 
 
-class TomogramPathSelector(QWidget):
+class OutputFolderSelector(QWidget):
     path: Path | None
     path_changed: Signal = Signal(Path)
 
@@ -29,7 +29,7 @@ class TomogramPathSelector(QWidget):
         font = QFont()
         font.setPointSize(11)
 
-        self.label = QLabel('tomogram:')
+        self.label = QLabel('output folder:')
         self.label.setFont(font)
 
         self.line_edit = QLineEdit()
@@ -47,11 +47,10 @@ class TomogramPathSelector(QWidget):
         self.layout().setContentsMargins(0, 0, 0, 0)
 
     def showDialog(self):
-        file_name, filter = QFileDialog.getOpenFileName(
+        file_name = QFileDialog.getExistingDirectory(
             self,
-            'Select tomogram file',  # caption
-            './',  # directory
-            filter=TOMOGRAM_FILE_FILTER
+            'Select output folder',  # caption
+            str(self.path),  # directory
         )
         if file_name != '':
             self.path_changed.emit(Path(file_name))

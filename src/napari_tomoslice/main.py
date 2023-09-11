@@ -1,3 +1,4 @@
+import warnings
 from pathlib import Path
 
 from napari_tomoslice._cli import cli
@@ -17,7 +18,9 @@ def napari_tomoslice(
         title='napari-tomoslice',
         ndisplay=3,
     )
-    viewer.window.qt_viewer.set_welcome_visible(False)
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore")
+        viewer.window.qt_viewer.set_welcome_visible(False)
     console.log('viewer launched')
 
     slicer = Slicer(viewer=viewer)

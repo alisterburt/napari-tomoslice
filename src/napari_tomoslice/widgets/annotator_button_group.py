@@ -8,7 +8,7 @@ from qtpy.QtGui import QFont
 
 
 class AnnotatorButtonGroup(QWidget):
-    def __init__(self, slicer, parent, *args, **kwargs):
+    def __init__(self, slicer, parent=None, *args, **kwargs):
         super().__init__(parent, *args, **kwargs)
         self.slicer = slicer
         self.setLayout(QHBoxLayout())
