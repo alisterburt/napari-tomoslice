@@ -81,8 +81,6 @@ class Slicer:
 
         self.annotation_mode = self._annotation_mode
 
-
-
     @property
     def tomogram_file(self) -> Path | None:
         return self._tomogram_file
@@ -92,8 +90,10 @@ class Slicer:
         self._tomogram_file = Path(value) if value is not None else None
 
         # update gui
-
         self.load_tomogram(self._tomogram_file)
+        self.controls_widget.tomogram_selector.line_edit.setText(
+            str(self._tomogram_file)
+        )
 
     @property
     def output_folder(self) -> Path | None:
@@ -106,8 +106,8 @@ class Slicer:
             self.folder_browser_widget.directory = Path(value)
 
         # update gui
-        self.controls_widget.tomogram_selector.line_edit.setText(
-            str(self._tomogram_file)
+        self.controls_widget.output_folder_selector.line_edit.setText(
+            str(self._output_folder)
         )
 
     @property
