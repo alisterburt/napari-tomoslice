@@ -33,4 +33,9 @@ def add_tomogram_to_viewer(
         layer = viewer.layers[TOMOGRAM_LAYER_NAME]
         for name, value in kwargs.items():
             setattr(layer, name, value)
+        layer.reset_contrast_limits_range()
+        layer.reset_contrast_limits()
+    viewer.reset_view()
+    viewer.camera.center = center
     viewer.camera.angles = (0, 10, -20)
+

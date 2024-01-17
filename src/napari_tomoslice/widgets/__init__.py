@@ -1,2 +1,2 @@
-from .slicer_controls import SlicerControls
-from .folder_browser import FolderBrowser
+from .annotator_controls import AnnotatorControls
+from .directory_browser import DirectoryBrowser

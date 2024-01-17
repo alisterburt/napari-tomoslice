@@ -14,10 +14,8 @@ from qtpy.QtWidgets import (
 from qtpy.QtGui import QFont
 from psygnal import Signal
 
-from napari_tomoslice._constants import TOMOGRAM_FILE_FILTER
 
-
-class OutputFolderSelector(QWidget):
+class AnnotationDirectorySelector(QWidget):
     path: Path | None
     path_changed: Signal = Signal(Path)
 
@@ -29,7 +27,7 @@ class OutputFolderSelector(QWidget):
         font = QFont()
         font.setPointSize(11)
 
-        self.label = QLabel('output folder:')
+        self.label = QLabel('annotation directory:')
         self.label.setFont(font)
 
         self.line_edit = QLineEdit()

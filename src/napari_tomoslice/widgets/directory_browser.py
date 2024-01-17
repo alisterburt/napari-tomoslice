@@ -28,9 +28,12 @@ class MyQLineEdit(QLineEdit):
         super().keyPressEvent(event)
 
 
-class FolderBrowser(QWidget):
+class DirectoryBrowser(QWidget):
     directory: Path | None
     glob_pattern: str
+
+    directory_changed = Signal(Path)
+    file_filter_changed = Signal(str)
 
     def __init__(
         self,
@@ -39,7 +42,7 @@ class FolderBrowser(QWidget):
         glob_pattern: str = '*'
     ):
         super().__init__()
-        self.slicer = slicer
+        self.tomoslice = slicer
         self._directory = directory if directory is not None else Path(os.getcwd())
         self.glob_pattern = glob_pattern
 
@@ -67,7 +70,7 @@ class FolderBrowser(QWidget):
         self.directory_edit_widget.line_edit.changed.connect(self.on_directory_change)
         self.search_field_widget.keyup.connect(self.on_key_up)
         self.search_field_widget.keydown.connect(self.on_key_down)
-        self.search_field_widget.textChanged.connect(self.on_text_changed)
+        self.search_field_widget.textChanged.connect(self.on_glob_pattern_changed)
         self.search_field_widget.returnPressed.connect(self.on_item_double_clicked)
         self.results_list_widget.itemActivated.connect(self.on_item_double_clicked)
 
@@ -94,12 +97,12 @@ class FolderBrowser(QWidget):
 
     def on_directory_change(self, *args, **kwargs):
         self._directory = self.directory_edit_widget.value
-        self.on_text_changed()
+        self.on_glob_pattern_changed()
 
-    def on_text_changed(self, *args, **kwargs):
+    def on_glob_pattern_changed(self, *args, **kwargs):
         self.results_list_widget.clear()
         for file in self.files:
-            _add_result(self.results_list_widget, str(file.name))
+            _add_result(self.results_list_widget, file)
 
     def on_key_up(self):
         if self.results_list_widget.currentRow() > 0:
@@ -114,11 +117,10 @@ class FolderBrowser(QWidget):
 
     def on_item_double_clicked(self):
         item = self.results_list_widget.currentItem()
-        tomogram_file = self.directory / item.file_name
-        self.slicer.tomogram_file = tomogram_file
+        self.tomoslice.load_tomogram(item.path)
 
 
-def _add_result(results: QListWidget, file_name: str):
-    item = QListWidgetItem(file_name)
-    item.file_name = file_name
+def _add_result(results: QListWidget, file: Path):
+    item = QListWidgetItem(file.name)
+    item.path = file
     results.addItem(item)
