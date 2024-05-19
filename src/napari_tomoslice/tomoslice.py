@@ -14,10 +14,9 @@ from napari_tomoslice.io.paths import load_paths
 from napari_tomoslice.io.points import load_points
 from napari_tomoslice.io.spheres import load_spheres
 from napari_tomoslice.utils import add_tomogram_to_viewer, get_annotation_layer
-from napari_tomoslice.widgets import AnnotatorControls, DirectoryBrowser
+from napari_tomoslice.widgets import TomoSliceWidget
 from napari_tomoslice.console import console
 from napari_tomoslice._constants import (
-    CONTROLS_WIDGET_NAME,
     TOMOGRAM_BROWSER_WIDGET_NAME,
     TOMOGRAM_LAYER_NAME,
     PLANE_CONTROLS_HELP_TEXT,
@@ -31,14 +30,13 @@ Annotator = TypeVar('Annotator')
 
 
 class AnnotationMode(Enum):
-    POINT = 'point'
-    PATH = 'path'
-    SPHERE = 'sphere'
+    POINTS = 'points'
+    PATHS = 'paths'
+    SPHERES = 'spheres'
 
 
 class TomoSliceApplication:
     viewer: napari.viewer.Viewer
-    annotator_controls: AnnotatorControls
     annotator: Optional[Annotator]
 
     annotation_directory: Optional[Path]
@@ -53,38 +51,29 @@ class TomoSliceApplication:
         tomogram_file: Optional[Path] = None,
         tomogram_directory: Optional[Path] = None,
         tomogram_glob_pattern: str = '*.mrc',
-        annotation_mode: AnnotationMode = AnnotationMode.POINT,
+        annotation_mode: AnnotationMode = AnnotationMode.POINTS,
         annotation_directory: Optional[Path] = None,
     ):
         self.viewer = viewer
         self.annotator = None
         self._annotation_directory = annotation_directory
-        self._annotation_mode = annotation_mode
+        self.annotation_mode = annotation_mode
         self._tomogram_file = tomogram_file
 
         if tomogram_file is not None and tomogram_directory is None:
             tomogram_directory = tomogram_file.absolute().parent
 
         # instantiate widgets
-        self.annotator_controls = AnnotatorControls(
-            application=self,
-            annotation_directory=annotation_directory
-        )
-        self.tomogram_browser_widget = DirectoryBrowser(
+        self.widget = TomoSliceWidget(
             slicer=self,
+            annotation_mode=annotation_mode,
             directory=tomogram_directory,
             glob_pattern=tomogram_glob_pattern
         )
 
         # add widgets to viewer
         self.viewer.window.add_dock_widget(
-            self.annotator_controls,
-            name=CONTROLS_WIDGET_NAME,
-            area='left',
-            allowed_areas=['left'],
-        )
-        self.viewer.window.add_dock_widget(
-            self.tomogram_browser_widget,
+            self.widget,
             name=TOMOGRAM_BROWSER_WIDGET_NAME,
             area='right',
             allowed_areas=['right'],
@@ -94,10 +83,7 @@ class TomoSliceApplication:
         self.save_annotations = self.viewer.bind_key('s')(self.save_annotation)
 
         # callbacks
-        annotator_buttons = self.annotator_controls.annotator_button_group
-        annotator_buttons.point_button.clicked.connect(self.new_point_annotation)
-        annotator_buttons.path_button.clicked.connect(self.new_path_annotation)
-        annotator_buttons.sphere_button.clicked.connect(self.new_sphere_annotation)
+        self.widget.save_button.clicked.connect(self.save_annotation)
 
         # help-text display
         self.viewer.text_overlay.visible = True
@@ -112,32 +98,20 @@ class TomoSliceApplication:
         self.annotation_directory = self._annotation_directory
 
     @property
-    def annotation_mode(self) -> str | None:
-        if self.annotator is None:
-            return None
-        else:
-            return self.annotator.points_layer.metadata[N3D_METADATA_KEY][ANNOTATION_TYPE_KEY]
-
-    @property
     def annotation_directory(self) -> Path | None:
         return self._annotation_directory
 
     @annotation_directory.setter
     def annotation_directory(self, value: PathLike):
         self._annotation_directory = Path(value) if value is not None else None
-        if value is not None:
-            self.annotator_controls.annotation_directory_selector.line_edit.setText(
-                str(self._annotation_directory)
-            )
-            self.annotator_controls.update_file_list()
 
     @property
     def tomogram_directory(self) -> Path | None:
-        return self.tomogram_browser_widget.directory
+        return self.widget.directory
 
     @tomogram_directory.setter
     def tomogram_directory(self, value: str | Path):
-        self.tomogram_browser_widget.directory = value
+        self.widget.directory = value
 
     @property
     def tomogram_file(self) -> Path | None:
@@ -146,7 +120,10 @@ class TomoSliceApplication:
     @tomogram_file.setter
     def tomogram_file(self, value: os.PathLike):
         self._tomogram_file = Path(value)
-        self.annotator_controls.update_file_list()
+
+    @property
+    def annotation_file(self) -> Path:
+        return self.annotation_directory / f'{self.tomogram_file.stem}_{self.annotation_mode}.star'
 
     def load_tomogram(self, path: Path):
         console.log(f'loading tomogram from {path}')
@@ -154,7 +131,30 @@ class TomoSliceApplication:
         console.log(f'array of shape {volume.shape} loaded')
         add_tomogram_to_viewer(tomogram=volume, viewer=self.viewer)
         console.log('tomogram added to viewer')
+
+        self.remove_non_tomogram_layers()
         self.tomogram_file = path
+        self.start_annotation()
+
+    def start_annotation(self):
+        if self.annotation_file.exists():
+            self.load_annotation(self.annotation_file)
+        elif self.annotation_mode == 'points':
+            self.new_point_annotation()
+        elif self.annotation_mode == 'paths':
+            self.new_path_annotation()
+        elif self.annotation_mode == 'spheres':
+            self.new_sphere_annotation()
+
+    def remove_non_tomogram_layers(self):
+        # add outer loop to workaround bug which prevents removal
+        # probable cause: layer indices aren't updated properly in napari when layers are removed
+        # this is fine...
+        for i in range(10):
+            for layer in self.viewer.layers:
+                print(layer.name)
+                if layer.name != TOMOGRAM_LAYER_NAME:
+                    self.viewer.layers.remove(layer)
 
     def load_annotation(self, path: Path, *args, **kwargs):
         # get annotation type
@@ -165,7 +165,7 @@ class TomoSliceApplication:
         if annotation_type == 'points':
             layer = load_points(path)
             self.activate_point_annotator(layer)
-        elif annotation_type == 'path':
+        elif annotation_type == 'paths':
             layer = load_paths(path)
             self.activate_path_annotator(layer)
         elif annotation_type == 'spheres':
@@ -178,23 +178,21 @@ class TomoSliceApplication:
         layer = get_annotation_layer(viewer=self.viewer, annotation_mode=self.annotation_mode)
         annotation_type = layer.metadata[N3D_METADATA_KEY][ANNOTATION_TYPE_KEY]
         self.annotation_directory.mkdir(exist_ok=True, parents=True)
-        output_file = self.annotation_directory / f'{self.tomogram_file.stem}_{annotation_type}.star'
         if annotation_type == 'points':
-            save_points(layer=layer, path=output_file)
+            save_points(layer=layer, path=self.annotation_file)
         elif annotation_type == 'path':
-            save_paths(layer=layer, path=output_file)
+            save_paths(layer=layer, path=self.annotation_file)
         elif annotation_type == 'spheres':
-            save_spheres(layer=layer, path=output_file)
+            save_spheres(layer=layer, path=self.annotation_file)
         else:
             raise RuntimeError('unsupported annotation type')
-        self.annotator_controls.update_file_list()
+        console.log(f'{annotation_type} annotation saved for {self.tomogram_file.stem} in {self.annotation_directory}')
 
     def new_point_annotation(self):
         points_layer = n3d.data_models.N3dPoints(data=[]).as_layer()
         self.activate_point_annotator(points_layer)
 
     def activate_point_annotator(self, points_layer):
-        points_layer.face_color = 'cornflowerblue'
         self.viewer.add_layer(points_layer)
         self.annotator = n3d.annotators.PointAnnotator(
             viewer=self.viewer,

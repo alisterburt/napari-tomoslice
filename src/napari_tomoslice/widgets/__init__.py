@@ -1,2 +1,1 @@
-from .annotator_controls import AnnotatorControls
-from .directory_browser import DirectoryBrowser
+from .tomoslice_widget import TomoSliceWidget

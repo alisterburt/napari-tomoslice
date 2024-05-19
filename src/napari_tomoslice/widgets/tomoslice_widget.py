@@ -1,4 +1,4 @@
-"""Folder browsing widget.
+"""napari-tomoslice widget for browsing tomograms and saving annotations.
 
 Modelled on https://github.com/haesleinhuepf/napari-folder-browser
 """
@@ -7,7 +7,7 @@ from pathlib import Path
 from typing import List, Optional
 
 from qtpy.QtWidgets import QWidget, QHBoxLayout, QVBoxLayout, QLineEdit, \
-    QListWidget, QListWidgetItem, QLabel
+    QListWidget, QListWidgetItem, QLabel, QPushButton
 from qtpy.QtCore import Qt
 from psygnal import Signal
 from magicgui.widgets import FileEdit
@@ -28,18 +28,16 @@ class MyQLineEdit(QLineEdit):
         super().keyPressEvent(event)
 
 
-class DirectoryBrowser(QWidget):
+class TomoSliceWidget(QWidget):
     directory: Path | None
     glob_pattern: str
-
-    directory_changed = Signal(Path)
-    file_filter_changed = Signal(str)
 
     def __init__(
         self,
         slicer,
+        annotation_mode: str,
         directory: Optional[Path] = None,
-        glob_pattern: str = '*'
+        glob_pattern: str = '*',
     ):
         super().__init__()
         self.tomoslice = slicer
@@ -55,17 +53,21 @@ class DirectoryBrowser(QWidget):
 
         self.search_field_widget = MyQLineEdit(self.glob_pattern)
         self.results_list_widget = QListWidget()
+        self.annotation_mode_label = QLabel(f'Annotation mode: {annotation_mode}')
 
         self.search_field_container_widget = QWidget()
         self.search_field_container_widget.setLayout(QHBoxLayout())
         self.search_field_container_widget.layout().addWidget(QLabel("Search:"))
         self.search_field_container_widget.layout().addWidget(self.search_field_widget)
+        self.search_field_container_widget.layout().setContentsMargins(0, 0, 0, 0)
 
-        self.layout().addWidget(QLabel("Directory"))
+        self.save_button = QPushButton('save annotation')
+
         self.layout().addWidget(self.directory_edit_widget.native)
-        self.layout().addWidget(QLabel("File filter"))
         self.layout().addWidget(self.search_field_container_widget)
         self.layout().addWidget(self.results_list_widget)
+        self.layout().addWidget(self.annotation_mode_label)
+        self.layout().addWidget(self.save_button)
 
         self.directory_edit_widget.line_edit.changed.connect(self.on_directory_change)
         self.search_field_widget.keyup.connect(self.on_key_up)

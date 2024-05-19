@@ -1,18 +1,21 @@
 import warnings
+from datetime import datetime
 from pathlib import Path
+
+import typer
 
 from napari_tomoslice._cli import cli
 from napari_tomoslice.console import console
 from napari_tomoslice.tomoslice import TomoSliceApplication, AnnotationMode
 
+datetime_string = f'{datetime.now()}'.replace(' ', '_').replace('-', '_')
 
 @cli.command(no_args_is_help=True)
 def napari_tomoslice(
-    tomogram_file: Path | None = None,
     tomogram_directory: Path | None = None,
-    tomogram_glob_pattern: str = '*.mrc',
-    annotation_directory: Path | None = None,
-    annotation_mode: AnnotationMode = 'disabled',
+    file_pattern: str = typer.Option('*.mrc'),
+    annotation_directory: Path = typer.Option(Path(f'tomoslice_{datetime_string}')),
+    mode: AnnotationMode = typer.Option(..., show_default=False),
 ):
     console.log('starting napari-tomoslice')
 
@@ -29,10 +32,9 @@ def napari_tomoslice(
 
     app = TomoSliceApplication(
         viewer=viewer,
-        tomogram_file=tomogram_file,
         tomogram_directory=tomogram_directory,
-        tomogram_glob_pattern=tomogram_glob_pattern,
+        tomogram_glob_pattern=file_pattern,
         annotation_directory=annotation_directory,
-        annotation_mode=annotation_mode,
+        annotation_mode=mode,
     )
     napari.run()
