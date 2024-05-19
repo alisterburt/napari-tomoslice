@@ -21,7 +21,7 @@ class AnnotationDirectorySelector(QWidget):
 
     def __init__(self, path: Optional[Path] = None, parent=None, *args, **kwargs):
         super().__init__(parent, *args, **kwargs)
-        self.path = Path('./') if path is None else path
+        self.path = Path('../') if path is None else path
         self.setLayout(QHBoxLayout())
 
         font = QFont()

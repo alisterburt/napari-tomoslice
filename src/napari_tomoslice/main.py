@@ -12,7 +12,7 @@ def napari_tomoslice(
     tomogram_directory: Path | None = None,
     tomogram_glob_pattern: str = '*.mrc',
     annotation_directory: Path | None = None,
-    annotation_mode: AnnotationMode = AnnotationMode.DISABLED
+    annotation_mode: AnnotationMode = 'disabled',
 ):
     console.log('starting napari-tomoslice')
 
@@ -32,5 +32,7 @@ def napari_tomoslice(
         tomogram_file=tomogram_file,
         tomogram_directory=tomogram_directory,
         tomogram_glob_pattern=tomogram_glob_pattern,
+        annotation_directory=annotation_directory,
+        annotation_mode=annotation_mode,
     )
     napari.run()

@@ -1,5 +1,6 @@
 import napari
 import numpy as np
+from napari_threedee.annotators.constants import N3D_METADATA_KEY, ANNOTATION_TYPE_KEY
 
 from napari_tomoslice._constants import (
     TOMOGRAM_LAYER_NAME,
@@ -39,3 +40,38 @@ def add_tomogram_to_viewer(
     viewer.camera.center = center
     viewer.camera.angles = (0, 10, -20)
 
+
+def get_annotation_layer(viewer: napari.viewer.Viewer, annotation_mode=None):
+    selected_layer = viewer.layers.selection.active
+
+    # handle multiple active layers
+    if type(selected_layer) == list and annotation_mode is None:
+        raise RuntimeError(
+            'Ambiguous: please select the layer containing the annotation you want to save.'
+        )
+
+    #
+    if N3D_METADATA_KEY not in selected_layer.metadata:
+        annotation_layers = [
+            layer
+            for layer in viewer.layers
+            if N3D_METADATA_KEY in layer.metadata
+        ]
+        if len(annotation_layers) == 1:
+            annotation_layer = annotation_layers[0]
+        elif len(annotation_layers) > 1 and annotation_mode is not None:
+            layer_to_annotation_type = {
+                layer: layer.metadata[N3D_METADATA_KEY][ANNOTATION_TYPE_KEY]
+                for layer
+                in annotation_layers
+                if layer.metadata[N3D_METADATA_KEY][ANNOTATION_TYPE_KEY] == annotation_mode
+            }
+            if len(layer_to_annotation_type) == 1:
+                annotation_layer = list(layer_to_annotation_type.keys())[0]
+        else:
+            raise RuntimeError(
+                'Ambiguous: please select the layer containing the annotation you want to save.'
+            )
+    else:
+        annotation_layer = selected_layer
+    return annotation_layer
