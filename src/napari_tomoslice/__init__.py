@@ -9,5 +9,4 @@ except PackageNotFoundError:
 __author__ = "Alister Burt"
 __email__ = "alisterburt@gmail.com"
 
-from .cli import napari_tomoslice
-from ._cli import cli
+from .tomoslice_cli import cli

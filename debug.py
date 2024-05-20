@@ -1,4 +1,4 @@
-from napari_tomoslice.cli import napari_tomoslice
+from napari_tomoslice.tomoslice_cli import napari_tomoslice
 from pathlib import Path
 
 napari_tomoslice(

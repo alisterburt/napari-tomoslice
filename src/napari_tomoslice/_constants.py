@@ -1,7 +1,6 @@
 import platform
 
-CLI_NAME = 'napari-tomoslice'
-CONTROLS_WIDGET_NAME = 'annotation controls'
+TOMOSLICE_CLI_NAME = 'napari-tomoslice'
 TOMOGRAM_BROWSER_WIDGET_NAME = 'tomogram browser'
 ANNOTATION_BROWSER_WIDGET_NAME = 'annotation browser'
 PLATFORM_IS_MACOS = True if platform.system() == "Darwin" else False

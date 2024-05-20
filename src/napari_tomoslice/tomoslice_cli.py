@@ -4,17 +4,20 @@ from pathlib import Path
 
 import typer
 
-from napari_tomoslice._cli import cli
 from napari_tomoslice.console import console
-from napari_tomoslice.tomoslice import TomoSliceApplication, AnnotationMode
+from napari_tomoslice.tomoslice_app import TomoSliceApplication, AnnotationMode
+from napari_tomoslice._constants import TOMOSLICE_CLI_NAME
+
+cli = typer.Typer(name=TOMOSLICE_CLI_NAME, no_args_is_help=True, add_completion=False)
 
 datetime_string = f'{datetime.now()}'.replace(' ', '_').replace('-', '_')
+
 
 @cli.command(no_args_is_help=True)
 def napari_tomoslice(
     tomogram_directory: Path | None = None,
     file_pattern: str = typer.Option('*.mrc'),
-    annotation_directory: Path = typer.Option(Path(f'tomoslice_{datetime_string}')),
+    annotation_directory: Path = typer.Option(default=f'{datetime.now()}'.replace(' ', '_').replace('-', '_')),
     mode: AnnotationMode = typer.Option(..., show_default=False),
 ):
     console.log('starting napari-tomoslice')
