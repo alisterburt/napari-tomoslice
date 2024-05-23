@@ -1,2 +1,1 @@
-from .slicer_controls import SlicerControls
-from .folder_browser import FolderBrowser
+from .tomoslice_widget import TomoSliceWidget
