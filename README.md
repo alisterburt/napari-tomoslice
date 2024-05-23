@@ -8,6 +8,12 @@
 
 *napari-tomoslice* is a tool for tomogram visualisation and annotation in napari.
 
+<p align="center">
+  <img src="assets/spheres.gif" alt="Annotating spheres in napari-tomoslice">
+  <br>
+  <em>annotating spheres in napari-tomoslice</em>
+</p>
+
 ## Features
 
 *napari-tomoslice* allows you to quickly annotate
