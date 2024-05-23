@@ -1,4 +1,4 @@
 from .volume import read_volume
-from .points import save_points
-from .paths import save_paths
-from .spheres import save_spheres
+from .points import load_points, save_points
+from .paths import load_paths, save_paths
+from .spheres import load_spheres, save_spheres
