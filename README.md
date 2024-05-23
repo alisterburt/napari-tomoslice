@@ -14,9 +14,15 @@
   <em>annotating spheres in napari-tomoslice</em>
 </p>
 
+*napari-tomoslice* is powered by
+[*napari*](https://github.com/napari/napari) 
+and
+[*napari-threedee*](https://github.com/napari-threedee/napari-threedee).
+
 ## Features
 
 *napari-tomoslice* allows you to quickly annotate
+
 - points
 - paths
 - spheres
@@ -34,7 +40,7 @@ pip install napari-tomoslice
 
 We recommend installing into a fresh conda environment.
 
-*napari* does not work well via X forwarding. If you want to use *napari-tomoslice* in a HPC environment 
+*napari* does not work well via X forwarding. If you want to use *napari-tomoslice* in a HPC environment
 please run via a virtual desktop solution.
 
 ## Usage
@@ -53,9 +59,5 @@ please run via a virtual desktop solution.
 
 ## Inspiration
 
-*napari-tomoslice* is heavily inspired by [*dtmslice* in Dynamo](https://www.dynamo-em.org/w/index.php?title=Dtmslice).
+*napari-tomoslice* is inspired by [*dtmslice* in Dynamo](https://www.dynamo-em.org/w/index.php?title=Dtmslice).
 
-*napari-tomoslice* is built on 
-[*napari*](https://github.com/napari/napari) 
-and 
-[*napari-threedee*](https://github.com/napari-threedee/napari-threedee).
