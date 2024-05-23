@@ -14,7 +14,9 @@ def load_paths(path: Path) -> napari.layers.Points:
         for name, _df
         in df.groupby('path_id')
     ]
-    return N3dPaths(data=path_data).as_layer()
+    layer = N3dPaths(data=path_data).as_layer()
+    layer.selected_data = {len(layer.data) - 1}
+    return layer
 
 
 def save_paths(layer: napari.layers.Points, path: Path):

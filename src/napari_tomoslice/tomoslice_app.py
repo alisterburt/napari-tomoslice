@@ -23,7 +23,7 @@ from napari_tomoslice._constants import (
     DISABLED_ANNOTATOR_HELP_TEXT,
     POINT_ANNOTATOR_HELP_TEXT,
     PATH_ANNOTATOR_HELP_TEXT,
-    SPHERE_ANNOTATOR_HELP_TEXT,
+    SPHERE_ANNOTATOR_HELP_TEXT, POINT_ANNOTATION_FACE_COLOR,
 )
 
 Annotator = TypeVar('Annotator')
@@ -57,17 +57,18 @@ class TomoSliceApplication:
         self.viewer = viewer
         self.annotator = None
         self._annotation_directory = annotation_directory
-        self.annotation_mode = annotation_mode
+        self._annotation_mode = annotation_mode
         self._tomogram_file = tomogram_file
+        self._tomogram_directory = tomogram_directory
 
         if tomogram_file is not None and tomogram_directory is None:
-            tomogram_directory = tomogram_file.absolute().parent
+            self._tomogram_directory = tomogram_file.absolute().parent
 
         # instantiate widgets
         self.widget = TomoSliceWidget(
             slicer=self,
-            annotation_mode=annotation_mode,
-            directory=tomogram_directory,
+            annotation_mode=self.annotation_mode,
+            directory=self.tomogram_directory,
             glob_pattern=tomogram_glob_pattern
         )
 
@@ -98,6 +99,10 @@ class TomoSliceApplication:
         self.annotation_directory = self._annotation_directory
 
     @property
+    def annotation_mode(self) -> str:
+        return self._annotation_mode.value
+
+    @property
     def annotation_directory(self) -> Path | None:
         return self._annotation_directory
 
@@ -107,11 +112,7 @@ class TomoSliceApplication:
 
     @property
     def tomogram_directory(self) -> Path | None:
-        return self.widget.directory
-
-    @tomogram_directory.setter
-    def tomogram_directory(self, value: str | Path):
-        self.widget.directory = value
+        return self._tomogram_directory
 
     @property
     def tomogram_file(self) -> Path | None:
@@ -129,7 +130,7 @@ class TomoSliceApplication:
         console.log(f'loading tomogram from {path}')
         volume = read_volume(path)
         console.log(f'array of shape {volume.shape} loaded')
-        add_tomogram_to_viewer(tomogram=volume, viewer=self.viewer)
+        add_tomogram_to_viewer(tomogram=volume, viewer=self.viewer, show_bounding_box=True)
         console.log('tomogram added to viewer')
 
         self.remove_non_tomogram_layers()
@@ -152,7 +153,6 @@ class TomoSliceApplication:
         # this is fine...
         for i in range(10):
             for layer in self.viewer.layers:
-                print(layer.name)
                 if layer.name != TOMOGRAM_LAYER_NAME:
                     self.viewer.layers.remove(layer)
 
@@ -186,11 +186,12 @@ class TomoSliceApplication:
             save_spheres(layer=layer, path=self.annotation_file)
         else:
             raise RuntimeError('unsupported annotation type')
-        console.log(f'{annotation_type} annotation saved for {self.tomogram_file.stem} in {self.annotation_directory}')
+        console.log(f'{annotation_type} annotation saved for {self.tomogram_file} in {self.annotation_directory}')
 
     def new_point_annotation(self):
-        points_layer = n3d.data_models.N3dPoints(data=[]).as_layer()
-        self.activate_point_annotator(points_layer)
+        layer = n3d.data_models.N3dPoints(data=[]).as_layer()
+        layer.current_face_color = POINT_ANNOTATION_FACE_COLOR
+        self.activate_point_annotator(layer)
 
     def activate_point_annotator(self, points_layer):
         self.viewer.add_layer(points_layer)

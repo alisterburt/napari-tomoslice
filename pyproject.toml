@@ -26,7 +26,7 @@ classifiers = [
 dynamic = ["version"]
 dependencies = [
     "typer",
-    "napari",
+    "napari[pyqt5]",
     "napari-threedee",
     "mrcfile",
     "starfile",

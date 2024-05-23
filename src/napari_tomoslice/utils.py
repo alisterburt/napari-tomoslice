@@ -11,7 +11,8 @@ from napari_tomoslice._constants import (
 
 def add_tomogram_to_viewer(
     tomogram: np.ndarray,
-    viewer: napari.viewer.Viewer
+    viewer: napari.viewer.Viewer,
+    show_bounding_box: bool,
 ):
     """Add a volume to the viewer in slicer mode, replacing if already present."""
     center = np.array(tomogram.shape) / 2
@@ -29,16 +30,18 @@ def add_tomogram_to_viewer(
         }
     }
     if TOMOGRAM_LAYER_NAME not in viewer.layers:
-        viewer.add_image(**kwargs)
+        layer = viewer.add_image(**kwargs)
     else:
         layer = viewer.layers[TOMOGRAM_LAYER_NAME]
         for name, value in kwargs.items():
             setattr(layer, name, value)
         layer.reset_contrast_limits_range()
         layer.reset_contrast_limits()
+    layer.bounding_box.visible = show_bounding_box
     viewer.reset_view()
     viewer.camera.center = center
-    viewer.camera.angles = (0, 10, -20)
+    viewer.camera.zoom *= 0.5
+    viewer.camera.angles = (-8, 23, -18)
 
 
 def get_annotation_layer(viewer: napari.viewer.Viewer, annotation_mode=None):
