@@ -26,7 +26,10 @@ and can be easily manipulated in Python using [starfile](https://teamtomo.org/st
 pip install napari-tomoslice
 ```
 
-We recommend installing into a fresh virtual environment.
+We recommend installing into a fresh conda environment.
+
+*napari* does not work well via X forwarding. If you want to use *napari-tomoslice* in a HPC environment 
+please run via a virtual desktop solution.
 
 ## Usage
 
