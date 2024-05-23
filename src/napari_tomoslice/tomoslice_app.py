@@ -237,3 +237,4 @@ class TomoSliceApplication:
         console.log('sphere annotator started')
         self.viewer.text_overlay.text = \
             f"{PLANE_CONTROLS_HELP_TEXT}\n{SPHERE_ANNOTATOR_HELP_TEXT}"
+        self.viewer.layers.selection = [self.viewer.layers[TOMOGRAM_LAYER_NAME]]
