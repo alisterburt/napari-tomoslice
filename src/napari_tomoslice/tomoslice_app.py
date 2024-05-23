@@ -86,6 +86,10 @@ class TomoSliceApplication:
         # callbacks
         self.widget.save_button.clicked.connect(self.save_annotation)
 
+        def select_tomogram():
+            self.viewer.layers.selection = [self.viewer.layers[TOMOGRAM_LAYER_NAME]]
+        self.viewer.layers.selection.events.changed.connect(select_tomogram)
+
         # help-text display
         self.viewer.text_overlay.visible = True
         self.viewer.text_overlay.position = 'top_left'
@@ -237,4 +241,3 @@ class TomoSliceApplication:
         console.log('sphere annotator started')
         self.viewer.text_overlay.text = \
             f"{PLANE_CONTROLS_HELP_TEXT}\n{SPHERE_ANNOTATOR_HELP_TEXT}"
-        self.viewer.layers.selection = [self.viewer.layers[TOMOGRAM_LAYER_NAME]]
