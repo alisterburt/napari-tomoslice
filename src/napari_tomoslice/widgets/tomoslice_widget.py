@@ -29,7 +29,7 @@ class MyQLineEdit(QLineEdit):
 
 
 class TomoSliceWidget(QWidget):
-    directory: Path | None
+    directory: Path
     glob_pattern: str
 
     def __init__(

@@ -16,7 +16,7 @@ datetime_string = current_time.strftime("%Y_%m_%d_%H:%M:%S")
 
 @cli.command(no_args_is_help=True)
 def napari_tomoslice(
-    tomogram_directory: Path | None = None,
+    tomogram_directory: Path = None,
     file_pattern: str = typer.Option('*.mrc'),
     annotation_directory: Path = typer.Option(default=datetime_string),
     mode: AnnotationMode = typer.Option(..., show_default=False),

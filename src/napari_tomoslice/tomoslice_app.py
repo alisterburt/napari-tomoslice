@@ -107,7 +107,7 @@ class TomoSliceApplication:
         return self._annotation_mode.value
 
     @property
-    def annotation_directory(self) -> Path | None:
+    def annotation_directory(self) -> Path:
         return self._annotation_directory
 
     @annotation_directory.setter
@@ -115,11 +115,11 @@ class TomoSliceApplication:
         self._annotation_directory = Path(value) if value is not None else None
 
     @property
-    def tomogram_directory(self) -> Path | None:
+    def tomogram_directory(self) -> Path:
         return self._tomogram_directory
 
     @property
-    def tomogram_file(self) -> Path | None:
+    def tomogram_file(self) -> Path:
         return self._tomogram_file
 
     @tomogram_file.setter
