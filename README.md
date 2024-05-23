@@ -48,13 +48,13 @@ please run via a virtual desktop solution.
 ```sh
  Usage: napari-tomoslice [OPTIONS]                                                                                                                                              
                                                                                                                                                                                 
-╭─ Options ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
-│    --tomogram-directory          PATH                    [default: None]                                                                                                     │
-│    --file-pattern                TEXT                    [default: *.mrc]                                                                                                    │
-│    --annotation-directory        PATH                    [default: 2024_05_22_21:16:44]                                                                                      │
-│ *  --mode                        [points|paths|spheres]  [required]                                                                                                          │
-│    --help                                                Show this message and exit.                                                                                         │
-╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭─ Options ────────────────────────────────────────────────────────────────────────────────╮
+│    --tomogram-directory          PATH                    [default: None]                 │
+│    --file-pattern                TEXT                    [default: *.mrc]                │
+│    --annotation-directory        PATH                    [default: 2024_05_22_21:16:44]  │
+│ *  --mode                        [points|paths|spheres]  [required]                      │
+│    --help                                                Show this message and exit.     │
+╰──────────────────────────────────────────────────────────────────────────────────────────╯
 ````
 
 ## Inspiration
