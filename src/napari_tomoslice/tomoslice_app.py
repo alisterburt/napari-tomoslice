@@ -33,6 +33,7 @@ class AnnotationMode(Enum):
     POINTS = 'points'
     PATHS = 'paths'
     SPHERES = 'spheres'
+    DIPOLES = 'dipoles'
 
 
 class TomoSliceApplication:
@@ -150,6 +151,8 @@ class TomoSliceApplication:
             self.new_path_annotation()
         elif self.annotation_mode == 'spheres':
             self.new_sphere_annotation()
+        elif self.annotation_mode == 'dipoles':
+            self.new_dipole_annotation()
 
     def remove_non_tomogram_layers(self):
         # add outer loop to workaround bug which prevents removal
@@ -239,5 +242,22 @@ class TomoSliceApplication:
             enabled=True,
         )
         console.log('sphere annotator started')
+        self.viewer.text_overlay.text = \
+            f"{PLANE_CONTROLS_HELP_TEXT}\n{SPHERE_ANNOTATOR_HELP_TEXT}"
+
+
+    def new_dipole_annotation(self):
+        points_layer = n3d.data_models.N3dDipoles(data=[]).as_layer()
+        self.activate_dipole_annotator(points_layer)
+
+    def activate_dipole_annotator(self, points_layer):
+        self.viewer.add_layer(points_layer)
+        self.annotator = n3d.annotators.DipoleAnnotator(
+            viewer=self.viewer,
+            image_layer=self.viewer.layers[TOMOGRAM_LAYER_NAME],
+            points_layer=points_layer,
+            enabled=True,
+        )
+        console.log('dipole annotator started')
         self.viewer.text_overlay.text = \
             f"{PLANE_CONTROLS_HELP_TEXT}\n{SPHERE_ANNOTATOR_HELP_TEXT}"
