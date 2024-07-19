@@ -24,6 +24,7 @@ from napari_tomoslice._constants import (
     POINT_ANNOTATOR_HELP_TEXT,
     PATH_ANNOTATOR_HELP_TEXT,
     SPHERE_ANNOTATOR_HELP_TEXT, POINT_ANNOTATION_FACE_COLOR,
+    DIPOLE_ANNOTATOR_HELP_TEXT,
 )
 
 Annotator = TypeVar('Annotator')
@@ -260,4 +261,4 @@ class TomoSliceApplication:
         )
         console.log('dipole annotator started')
         self.viewer.text_overlay.text = \
-            f"{PLANE_CONTROLS_HELP_TEXT}\n{SPHERE_ANNOTATOR_HELP_TEXT}"
+            f"{PLANE_CONTROLS_HELP_TEXT}\n{DIPOLE_ANNOTATOR_HELP_TEXT}"
