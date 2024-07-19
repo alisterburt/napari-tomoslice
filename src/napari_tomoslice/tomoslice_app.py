@@ -9,10 +9,11 @@ import napari_threedee as n3d
 import starfile
 from napari_threedee.annotators.constants import N3D_METADATA_KEY, ANNOTATION_TYPE_KEY
 
-from napari_tomoslice.io import read_volume, save_points, save_paths, save_spheres
+from napari_tomoslice.io import read_volume, save_points, save_paths, save_spheres, save_dipoles
 from napari_tomoslice.io.paths import load_paths
 from napari_tomoslice.io.points import load_points
 from napari_tomoslice.io.spheres import load_spheres
+from napari_tomoslice.io.dipoles import load_dipoles
 from napari_tomoslice.utils import add_tomogram_to_viewer, get_annotation_layer
 from napari_tomoslice.widgets import TomoSliceWidget
 from napari_tomoslice.console import console
@@ -179,6 +180,9 @@ class TomoSliceApplication:
         elif annotation_type == 'spheres':
             layer = load_spheres(path)
             self.activate_sphere_annotator(layer)
+        elif annotation_type == 'dipoles':
+            layer = load_dipoles(path)
+            self.activate_dipole_annotator(layer)
         else:
             raise RuntimeError('unsupported annotation type')
 
@@ -192,6 +196,8 @@ class TomoSliceApplication:
             save_paths(layer=layer, path=self.annotation_file)
         elif annotation_type == 'spheres':
             save_spheres(layer=layer, path=self.annotation_file)
+        elif annotation_type == 'dipoles':
+            save_dipoles(layer=layer, path=self.annotation_file)
         else:
             raise RuntimeError('unsupported annotation type')
         console.log(f'{annotation_type} annotation saved for {self.tomogram_file} in {self.annotation_directory}')
