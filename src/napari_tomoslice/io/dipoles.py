@@ -4,7 +4,6 @@ import napari
 import pandas as pd
 import numpy as np
 import starfile
-from typing import Tuple
 from napari_threedee.data_models import N3dDipoles
 
 
