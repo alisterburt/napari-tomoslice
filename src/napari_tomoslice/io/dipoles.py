@@ -4,6 +4,7 @@ import napari
 import pandas as pd
 import numpy as np
 import starfile
+from typing import Tuple
 from napari_threedee.data_models import N3dDipoles
 
 
@@ -14,7 +15,8 @@ def load_dipoles(path: Path) -> napari.layers.Points:
     direction_y = df['direction_y'].to_numpy()
     direction_x = df['direction_x'].to_numpy()
     directions = np.stack([direction_z, direction_y, direction_x], axis=-1)
-    return N3dDipoles(centers=centers, directions=directions).as_layer()
+    layer = N3dDipoles.from_centers_and_directions(centers, directions).as_layer()
+    return layer
 
 
 def save_dipoles(layer: napari.layers.Points, path: Path):
@@ -30,4 +32,4 @@ def save_dipoles(layer: napari.layers.Points, path: Path):
         'direction_z': dipoles.directions[:, -3],
     }
     df = pd.DataFrame(dipoles_data)
-    starfile.write({"points": df}, path, overwrite=True)
+    starfile.write({"dipoles": df}, path, overwrite=True)
