@@ -1,21 +1,20 @@
 import warnings
-from datetime import datetime
+
 from pathlib import Path
+
+from datetime import datetime
 
 import typer
 
+from napari_tomoslice._constants import ANNOTATION_CLI_NAME
+from napari_tomoslice.annotation.tomoslice_app import AnnotationMode, TomoSliceApplication
 from napari_tomoslice.console import console
-from napari_tomoslice.tomoslice_app import TomoSliceApplication, AnnotationMode
-from napari_tomoslice._constants import TOMOSLICE_CLI_NAME
 
-cli = typer.Typer(name=TOMOSLICE_CLI_NAME, no_args_is_help=True, add_completion=False)
 
 current_time = datetime.now()
 datetime_string = current_time.strftime("%Y_%m_%d_%H:%M:%S")
 
-
-@cli.command(no_args_is_help=True)
-def napari_tomoslice(
+def annotation_cli(
     tomogram_directory: Path = None,
     file_pattern: str = typer.Option('*.mrc'),
     annotation_directory: Path = typer.Option(default=datetime_string),
@@ -24,7 +23,7 @@ def napari_tomoslice(
     console.log('starting napari-tomoslice')
 
     console.log('launching napari viewer')
-    import napari
+    import napari  # do napari import locally to avoid before launching cli
     viewer = napari.Viewer(
         title='napari-tomoslice',
         ndisplay=3,

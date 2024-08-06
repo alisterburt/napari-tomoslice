@@ -9,4 +9,4 @@ except PackageNotFoundError:
 __author__ = "Alister Burt"
 __email__ = "alisterburt@gmail.com"
 
-from .tomoslice_cli import cli
+from .cli import cli
