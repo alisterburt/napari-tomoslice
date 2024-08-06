@@ -1,6 +1,9 @@
 import platform
 
 TOMOSLICE_CLI_NAME = 'napari-tomoslice'
+ANNOTATION_CLI_NAME = 'annotate'
+POSE_GENERATION_CLI_NAME = 'generate-poses'
+POSE_CONVERSION_CLI_NAME = 'export-poses'
 TOMOGRAM_BROWSER_WIDGET_NAME = 'tomogram browser'
 ANNOTATION_BROWSER_WIDGET_NAME = 'annotation browser'
 PLATFORM_IS_MACOS = True if platform.system() == "Darwin" else False
