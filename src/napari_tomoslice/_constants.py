@@ -42,3 +42,11 @@ SPHERE_ANNOTATOR_HELP_TEXT = f"""
 - press 'r' at desired edge of sphere to change the radius
 - {_ALT} + click again to move the sphere 
 """
+
+DIPOLE_ANNOTATOR_HELP_TEXT = f"""
+- press 'n' to start a new dipole
+- {_ALT} + click to set the position of the new dipole
+- press 'v' to set the direction of the dipole
+- {_ALT} + click again to move the dipole
+"""
+
