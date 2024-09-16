@@ -14,6 +14,7 @@ from napari_tomoslice.console import console
 def generate_poses_spheres(
     annotations_directory: Path = typer.Option(...),
     output_star_file: Path = typer.Option(...),
+    distance_between_particles: float = typer.Option(...),
 ):
     annotation_files = list(annotations_directory.glob('*_spheres.star'))
     console.log(f'Found {len(annotation_files)} files in {annotations_directory}')
@@ -28,7 +29,7 @@ def generate_poses_spheres(
 
         for center, radius in zip(centers, radii):
             sphere = Sphere(center=center, radius=radius)
-            pose_sampler = sphere_samplers.PoseSampler(spacing=5)
+            pose_sampler = sphere_samplers.PoseSampler(spacing=distance_between_particles)
             poses = pose_sampler.sample(sphere)
             positions = poses.positions
             orientations = poses.orientations[:, :, 2]
