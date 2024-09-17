@@ -13,7 +13,7 @@ pose_generation_paths_cli = typer.Typer(name='paths', no_args_is_help=True)
 
 
 @pose_generation_paths_cli.command(name='backbone')
-def generate_poses_filaments_backbone(
+def generate_poses_paths_backbone(
         annotations_directory: Path = typer.Option(...),
         output_star_file: Path = typer.Option(...),
         distance_between_particles: float = typer.Option(...),
@@ -52,12 +52,12 @@ def generate_poses_filaments_backbone(
 
 
 @pose_generation_paths_cli.command(name='rings')
-def generate_poses_filaments_rings():
+def generate_poses_paths_rings():
     print('coming soon...')
 
 
 @pose_generation_paths_cli.command(name='helix')
-def generate_poses_filaments_helix(
+def generate_poses_paths_helix(
         annotations_directory: Path = typer.Option(...),
         output_star_file: Path = typer.Option(...),
         distance_between_particles: float = typer.Option(...),
