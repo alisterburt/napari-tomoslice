@@ -57,7 +57,7 @@ def generate_poses_filaments_rings():
 
 
 @pose_generation_paths_cli.command(name='helix')
-def generate_poses_filaments_rings(
+def generate_poses_filaments_helix(
         annotations_directory: Path = typer.Option(...),
         output_star_file: Path = typer.Option(...),
         distance_between_particles: float = typer.Option(...),
