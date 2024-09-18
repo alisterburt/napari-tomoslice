@@ -9,11 +9,12 @@ import napari_threedee as n3d
 import starfile
 from napari_threedee.annotators.constants import N3D_METADATA_KEY, ANNOTATION_TYPE_KEY
 
-from napari_tomoslice.io import read_volume, save_points, save_paths, save_spheres, save_dipoles
+from napari_tomoslice.io import read_volume, save_points, save_paths, save_spheres, save_dipoles, save_surfaces
 from napari_tomoslice.io.paths import load_paths
 from napari_tomoslice.io.points import load_points
 from napari_tomoslice.io.spheres import load_spheres
 from napari_tomoslice.io.dipoles import load_dipoles
+from napari_tomoslice.io.surfaces import load_surfaces
 from napari_tomoslice.utils import add_tomogram_to_viewer, get_annotation_layer
 from napari_tomoslice.widgets import TomoSliceWidget
 from napari_tomoslice.console import console
@@ -26,6 +27,7 @@ from napari_tomoslice._constants import (
     PATH_ANNOTATOR_HELP_TEXT,
     SPHERE_ANNOTATOR_HELP_TEXT, POINT_ANNOTATION_FACE_COLOR,
     DIPOLE_ANNOTATOR_HELP_TEXT,
+    SURFACE_ANNOTATOR_HELP_TEXT,
 )
 
 Annotator = TypeVar('Annotator')
@@ -36,6 +38,7 @@ class AnnotationMode(Enum):
     PATHS = 'paths'
     SPHERES = 'spheres'
     DIPOLES = 'dipoles'
+    SURFACES = 'surfaces'
 
 
 class TomoSliceApplication:
@@ -155,6 +158,9 @@ class TomoSliceApplication:
             self.new_sphere_annotation()
         elif self.annotation_mode == 'dipoles':
             self.new_dipole_annotation()
+        elif self.annotation_mode == 'surfaces':
+            self.new_surface_annotation()
+
 
     def remove_non_tomogram_layers(self):
         # add outer loop to workaround bug which prevents removal
@@ -183,6 +189,9 @@ class TomoSliceApplication:
         elif annotation_type == 'dipoles':
             layer = load_dipoles(path)
             self.activate_dipole_annotator(layer)
+        elif annotation_type == 'surfaces':
+            layer = load_surfaces(path)
+            self.activate_surface_annotator(layer)
         else:
             raise RuntimeError('unsupported annotation type')
 
@@ -198,6 +207,8 @@ class TomoSliceApplication:
             save_spheres(layer=layer, path=self.annotation_file)
         elif annotation_type == 'dipoles':
             save_dipoles(layer=layer, path=self.annotation_file)
+        elif annotation_type == 'surfaces':
+            save_surfaces(layer=layer, path=self.annotation_file)
         else:
             raise RuntimeError('unsupported annotation type')
         console.log(f'{annotation_type} annotation saved for {self.tomogram_file} in {self.annotation_directory}')
@@ -268,3 +279,19 @@ class TomoSliceApplication:
         console.log('dipole annotator started')
         self.viewer.text_overlay.text = \
             f"{PLANE_CONTROLS_HELP_TEXT}\n{DIPOLE_ANNOTATOR_HELP_TEXT}"
+
+    def new_surface_annotation(self):
+        points_layer = n3d.data_models.N3dSurfaces(data=[]).as_layer()
+        self.activate_surface_annotator(points_layer)
+
+    def activate_surface_annotator(self, points_layer):
+        self.viewer.add_layer(points_layer)
+        self.annotator = n3d.annotators.SurfaceAnnotator(
+            viewer=self.viewer,
+            image_layer=self.viewer.layers[TOMOGRAM_LAYER_NAME],
+            points_layer=points_layer,
+            enabled=True,
+        )
+        console.log('surface annotator started')
+        self.viewer.text_overlay.text = \
+            f"{PLANE_CONTROLS_HELP_TEXT}\n{SURFACE_ANNOTATOR_HELP_TEXT}"

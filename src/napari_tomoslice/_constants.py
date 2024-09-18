@@ -53,3 +53,7 @@ DIPOLE_ANNOTATOR_HELP_TEXT = f"""
 - {_ALT} + click again to move the dipole
 """
 
+SURFACE_ANNOTATOR_HELP_TEXT = f"""
+- press 'n' to start a new path
+- {_ALT} + click to add a new point to the current path
+"""
