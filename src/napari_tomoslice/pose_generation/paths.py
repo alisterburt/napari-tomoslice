@@ -38,7 +38,7 @@ def generate_poses_paths_backbone(
 
         for path_id, path_df in grouped_paths:
             # create a morphosamplers Path object
-            control_points_xyz = path_df[['x', 'y', 'z']].values
+            control_points_xyz = path_df[['x', 'y', 'z']].to_numpy()
             path = MorphoPath(control_points=control_points_xyz)
 
             # sample positions and orientations along the path
@@ -87,38 +87,60 @@ def generate_poses_paths_helix(
     distance_between_particles: float = typer.Option(...),
     twist: float = typer.Option(...),
 ):
-    annotations_files = list(annotations_directory.glob('*_paths.star'))
-    console.log(f'Found {len(annotations_files)} files in {annotations_directory}')
-    all_dfs = []
-    for file in annotations_files:
-        tilt_series_id = file.stem.rstrip('_paths')
+    # find annotation files
+    annotation_files = list(annotations_directory.glob('*_paths.star'))
+    console.log(f'Found {len(annotation_files)} files in {annotations_directory}')
+
+    # empty list to store per-path dataframes
+    path_dfs = []
+
+    # iterate over files and paths in each file
+    for file in annotation_files:
+        # load file, find paths and tilt series id
         df = starfile.read(file)
-        num_paths = df['path_id'].nunique()
-        console.log(f'Found {num_paths} paths in {file.name}')
         grouped_paths = df.groupby('path_id')
+        tilt_series_id = file.stem.rstrip('_paths')
+        console.log(f'Found {grouped_paths.ngroups} paths in {file.name}')
+
         for path_id, path_data in grouped_paths:
-            control_points = path_data[['x', 'y', 'z']].values
-            path = MorphoPath(control_points=control_points)
-            helical_pose_sampler = path_samplers.HelicalPoseSampler(spacing=distance_between_particles, twist=twist)
-            helical_poses = helical_pose_sampler.sample(path)
-            positions = helical_poses.positions
-            orientations = helical_poses.orientations[:, :, 2]
+            # construct morphosamplers Path for sampling
+            control_points_xyz = path_data[['x', 'y', 'z']].to_numpy()
+            path = MorphoPath(control_points=control_points_xyz)
+
+            # sample poses following a helical path along the backbone
+            helical_pose_sampler = path_samplers.HelicalPoseSampler(
+                spacing=distance_between_particles, twist=twist
+            )
+            poses = helical_pose_sampler.sample(path)
+
+            # Extract positions and euler angles
+            positions = poses.positions
+            euler_angles = (
+                R.from_matrix(poses.orientations)
+                .inv()
+                .as_euler(seq='ZYZ', degrees=True)
+            )
+
+            # construct dataframe
             pose_data = {
                 'x': positions[:, -3],
                 'y': positions[:, -2],
                 'z': positions[:, -1],
-                'direction_x': orientations[:, -3],
-                'direction_y': orientations[:, -2],
-                'direction_z': orientations[:, -1],
+                'rot': euler_angles[:, 0],
+                'tilt': euler_angles[:, 1],
+                'psi': euler_angles[:, 2],
                 'path_id': [f"{path_id}"] * len(positions),
                 'id': [tilt_series_id] * len(positions)
             }
             path_df = pd.DataFrame(pose_data)
-            all_dfs.append(path_df)
+            path_dfs.append(path_df)
+            console.log(f'Generated {len(path_df)} particles for path {path_id} in {tilt_series_id}')
 
-        final_df = pd.concat(all_dfs)
+    # write output to disk
+    final_df = pd.concat(path_dfs)
+    console.log(f'Writing {len(final_df)} particles into {output_star_file}...')
     starfile.write({"paths": final_df}, output_star_file, overwrite=True)
-    console.log(f'Writing {len(final_df)} particles into {output_star_file}')
+    console.log('Done!')
 
 
 pose_generation_cli.add_typer(pose_generation_paths_cli)
