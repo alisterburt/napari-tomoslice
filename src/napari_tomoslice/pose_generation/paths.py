@@ -61,7 +61,7 @@ def generate_poses_paths_backbone(
                 'rot': euler_angles[:, 0],
                 'tilt': euler_angles[:, 1],
                 'psi': euler_angles[:, 2],
-                'path_id': [f"{path_id}"] * len(positions),
+                'manifold_id': [f"{path_id}"] * len(positions),
                 'tilt_series_id': [tilt_series_id] * len(positions)
             }
             path_df = pd.DataFrame(particle_pose_data)
@@ -71,7 +71,7 @@ def generate_poses_paths_backbone(
     # write output file to disk
     df_out = pd.concat(path_dfs)
     console.log(f'Writing {len(df_out)} particles into {output_star_file}...')
-    starfile.write({"paths": df_out}, output_star_file, overwrite=True)
+    starfile.write({"particles": df_out}, output_star_file, overwrite=True)
     console.log('Done!')
 
 
@@ -129,8 +129,8 @@ def generate_poses_paths_helix(
                 'rot': euler_angles[:, 0],
                 'tilt': euler_angles[:, 1],
                 'psi': euler_angles[:, 2],
-                'path_id': [f"{path_id}"] * len(positions),
-                'id': [tilt_series_id] * len(positions)
+                'manifold_id': [f"{path_id}"] * len(positions),
+                'tilt_series_id': [tilt_series_id] * len(positions)
             }
             path_df = pd.DataFrame(pose_data)
             path_dfs.append(path_df)
@@ -139,7 +139,7 @@ def generate_poses_paths_helix(
     # write output to disk
     final_df = pd.concat(path_dfs)
     console.log(f'Writing {len(final_df)} particles into {output_star_file}...')
-    starfile.write({"paths": final_df}, output_star_file, overwrite=True)
+    starfile.write({"particles": final_df}, output_star_file, overwrite=True)
     console.log('Done!')
 
 
