@@ -50,9 +50,9 @@ def generate_poses_dipoles_direct(
             )
             # prepare dataframe for output
             particle_pose_data = {
-                'x': positions[:, -3],
-                'y': positions[:, -2],
-                'z': positions[:, -1],
+                'x': positions[:, 0],
+                'y': positions[:, 1],
+                'z': positions[:, 2],
                 'rot': euler_angles[:, 0],
                 'tilt': euler_angles[:, 1],
                 'psi': euler_angles[:, 2],
