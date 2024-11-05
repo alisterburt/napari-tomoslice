@@ -9,14 +9,6 @@ import napari_threedee as n3d
 import starfile
 from napari_threedee.annotators.constants import N3D_METADATA_KEY, ANNOTATION_TYPE_KEY
 
-from napari_tomoslice.io import read_volume, save_points, save_paths, save_spheres, save_dipoles
-from napari_tomoslice.io.paths import load_paths
-from napari_tomoslice.io.points import load_points
-from napari_tomoslice.io.spheres import load_spheres
-from napari_tomoslice.io.dipoles import load_dipoles
-from napari_tomoslice.utils import add_tomogram_to_viewer, get_annotation_layer
-from napari_tomoslice.widgets import TomoSliceWidget
-from napari_tomoslice.console import console
 from napari_tomoslice._constants import (
     TOMOGRAM_BROWSER_WIDGET_NAME,
     TOMOGRAM_LAYER_NAME,
@@ -27,6 +19,14 @@ from napari_tomoslice._constants import (
     SPHERE_ANNOTATOR_HELP_TEXT, POINT_ANNOTATION_FACE_COLOR,
     DIPOLE_ANNOTATOR_HELP_TEXT,
 )
+from napari_tomoslice.console import console
+from napari_tomoslice.io import read_volume, save_points, save_paths, save_spheres, save_dipoles
+from napari_tomoslice.io.dipoles import load_dipoles
+from napari_tomoslice.io.paths import load_paths
+from napari_tomoslice.io.points import load_points
+from napari_tomoslice.io.spheres import load_spheres
+from napari_tomoslice.utils import add_tomogram_to_viewer, get_annotation_layer
+from napari_tomoslice.widgets import TomoSliceWidget
 
 Annotator = TypeVar('Annotator')
 
@@ -88,10 +88,6 @@ class TomoSliceApplication:
 
         # callbacks
         self.widget.save_button.clicked.connect(self.save_annotation)
-
-        def select_tomogram():
-            self.viewer.layers.selection = [self.viewer.layers[TOMOGRAM_LAYER_NAME]]
-        self.viewer.layers.selection.events.changed.connect(select_tomogram)
 
         # help-text display
         self.viewer.text_overlay.visible = True
@@ -155,6 +151,10 @@ class TomoSliceApplication:
             self.new_sphere_annotation()
         elif self.annotation_mode == 'dipoles':
             self.new_dipole_annotation()
+        self.select_tomogram_layer()
+
+    def select_tomogram_layer(self):
+        self.viewer.layers.selection = [self.viewer.layers[TOMOGRAM_LAYER_NAME]]
 
     def remove_non_tomogram_layers(self):
         # add outer loop to workaround bug which prevents removal
@@ -185,6 +185,7 @@ class TomoSliceApplication:
             self.activate_dipole_annotator(layer)
         else:
             raise RuntimeError('unsupported annotation type')
+        self.select_tomogram_layer()
 
     def save_annotation(self, *args, **kwargs):
         layer = get_annotation_layer(viewer=self.viewer, annotation_mode=self.annotation_mode)
@@ -251,7 +252,6 @@ class TomoSliceApplication:
         console.log('sphere annotator started')
         self.viewer.text_overlay.text = \
             f"{PLANE_CONTROLS_HELP_TEXT}\n{SPHERE_ANNOTATOR_HELP_TEXT}"
-
 
     def new_dipole_annotation(self):
         points_layer = n3d.data_models.N3dDipoles(data=[]).as_layer()
