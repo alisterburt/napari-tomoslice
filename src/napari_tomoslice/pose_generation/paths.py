@@ -46,7 +46,7 @@ def generate_poses_paths_backbone(
                     path_id=path_id,
                     tilt_series_id=tilt_series_id
                 )
-                path_dfs.append(_generate_pose_df_backbone())
+                path_dfs.append(path_df)
                 console.log(f'Generated {len(path_df)} particles for path {path_id} in {tilt_series_id}')
             except ValueError:
                 console.warning(f'Could not generate pose for path {path_id} in {tilt_series_id}')
