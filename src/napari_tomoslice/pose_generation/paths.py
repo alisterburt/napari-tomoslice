@@ -49,8 +49,8 @@ def generate_poses_paths_backbone(
                 path_dfs.append(path_df)
                 console.log(f'Generated {len(path_df)} particles for path {path_id} in {tilt_series_id}')
             except ValueError:
-                console.warning(f'Could not generate pose for path {path_id} in {tilt_series_id}')
-                console.warning(f'this is usually due to the presence of duplicate control points...')
+                console.log(f'Could not generate pose for path {path_id} in {tilt_series_id}')
+                console.log(f'this is usually due to the presence of duplicate control points...')
 
 
 
