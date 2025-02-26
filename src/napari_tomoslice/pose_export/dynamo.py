@@ -9,7 +9,8 @@ from napari_tomoslice.console import console
 def export_poses_dynamo(df: pd.DataFrame, output_file: Path):
     console.log('converting star file into Dynamo compatible output')
     eulers = df[['rot', 'tilt', 'psi']].to_numpy()
-    eulers_dynamo = convert_eulers(eulers, source_meta='relion', target_meta='dynamo')
+    rotation_matrices = R.from_euler(angle=eulers, seq='ZYZ', degrees=True).inv().as_matrix()
+    eulers_dynamo = R.from_matrix(rotation_matrices).inv().as_euler(seq='zxz', degrees=True)
     dynamo_data = {
         'x': df['x'],
         'y': df['y'],
