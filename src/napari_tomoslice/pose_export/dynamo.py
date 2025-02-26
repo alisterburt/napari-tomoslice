@@ -2,7 +2,7 @@ from pathlib import Path
 
 import pandas as pd
 import dynamotable
-from eulerangles import convert_eulers
+from scipy.spatial.transform import Rotation as R
 
 from napari_tomoslice.console import console
 
