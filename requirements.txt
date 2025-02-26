@@ -128,3 +128,5 @@ wcwidth==0.2.13
 wrapt==1.16.0
 zarr==2.18.1
 zipp==3.18.2
+dynamotable~=0.2.4
+eulerangles~=1.0.2
