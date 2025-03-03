@@ -7,7 +7,7 @@ from napari_tomoslice.console import console
 
 
 def export_poses_relion5(df: pd.DataFrame, output_file: Path):
-    console.log('renaming columns for RELION (version 5) compatible output')
+    console.log('renaming columns for RELION (version 5) compatible output...')
     df.rename(
         columns={
             "x": "rlnCoordinateX",
@@ -23,4 +23,4 @@ def export_poses_relion5(df: pd.DataFrame, output_file: Path):
     )
     console.log(f'writing {len(df)} particles to {output_file}...')
     starfile.write(df, output_file, overwrite=True)
-    console.log('done!')
+

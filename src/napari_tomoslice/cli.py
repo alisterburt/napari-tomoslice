@@ -9,9 +9,9 @@ cli = typer.Typer(
     name=TOMOSLICE_CLI_NAME,
     no_args_is_help=True,
     add_completion=False,
-    help="annotate geometrical structures in cryo-ET data",
+    help="annotate geometrical structures and save poses in cryo-ET data",
 )
 
-cli.command(no_args_is_help=True, name=ANNOTATION_CLI_NAME)(annotation_cli)
+cli.command(no_args_is_help=True, name=ANNOTATION_CLI_NAME, help='interactively annotate geometrical structures')(annotation_cli)
 cli.add_typer(pose_generation_cli)
-cli.command(no_args_is_help=True, name=POSE_EXPORT_CLI_NAME)(pose_export_cli)
+cli.command(no_args_is_help=True, name=POSE_EXPORT_CLI_NAME, help='export particle poses generated from geometrical annotations')(pose_export_cli)

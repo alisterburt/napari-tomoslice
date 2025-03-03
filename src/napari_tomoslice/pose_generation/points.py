@@ -8,7 +8,8 @@ from .cli import pose_generation_cli
 from napari_tomoslice.console import console
 
 
-@pose_generation_cli.command(name='points', no_args_is_help=True)
+@pose_generation_cli.command(name='points', no_args_is_help=True,
+                             help='generate particle poses from point annotations')
 def generate_poses_points(
     annotations_directory: Path = typer.Option(...),
     output_star_file: Path = typer.Option(...),
@@ -24,5 +25,7 @@ def generate_poses_points(
         dfs.append(df)
 
     df = pd.concat(dfs)
-    starfile.write(df, output_star_file)
+    sorted_df = df.sort_values('id')
+    starfile.write(sorted_df, output_star_file)
     console.log(f'Writing {len(df)} particles into {output_star_file}')
+    console.log('Done!', style="bold green")
