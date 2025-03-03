@@ -10,7 +10,8 @@ from napari_tomoslice.console import console
 
 
 
-@pose_generation_cli.command(name='spheres', no_args_is_help=True)
+@pose_generation_cli.command(name='spheres', no_args_is_help=True,
+                             help='generate particle poses from sphere annotations')
 def generate_poses_spheres(
     annotations_directory: Path = typer.Option(...),
     output_star_file: Path = typer.Option(...),
@@ -50,6 +51,7 @@ def generate_poses_spheres(
     sorted_df = final_df.sort_values('id')
     starfile.write(sorted_df, output_star_file, overwrite=True)
     console.log(f'Writing {len(final_df)} particles into {output_star_file}')
+    console.log('Done!', style="bold green")
 
 
 

@@ -19,13 +19,18 @@ def pose_export_cli(
     output_type: OutputType = typer.Option(...),
     output_file: Path = typer.Option(...)
 ) -> None:
-    console.log(f'reading {input_file}...')
-    df = starfile.read(input_file)
-    console.log(f'read {len(df)} rows from {input_file}')
+    try:
+        df = starfile.read(input_file)
+        console.log(f'reading {input_file}...')
+        console.log(f'read {len(df)} rows from {input_file}')
 
-    if output_type == OutputType.RELION5:
-        export_poses_relion5(df, output_file)
-    if output_type == OutputType.DYNAMO:
-        export_poses_dynamo(df, output_file)
-    else:
-        raise NotImplementedError(output_type)
+        if output_type == OutputType.RELION5:
+            export_poses_relion5(df, output_file)
+        elif output_type == OutputType.DYNAMO:
+            export_poses_dynamo(df, output_file)
+        else:
+            raise NotImplementedError(output_type)
+        console.log('Done!', style="bold green")
+
+    except Exception as e:
+        console.log(f'Error: {str(e)}', style="bold red")

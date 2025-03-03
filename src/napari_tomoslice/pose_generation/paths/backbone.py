@@ -11,7 +11,8 @@ from napari_tomoslice.console import console
 from napari_tomoslice.pose_generation.cli import pose_generation_cli as pose_generation_cli
 from .cli import pose_generation_paths_cli
 
-@pose_generation_paths_cli.command(name='backbone', no_args_is_help=True)
+@pose_generation_paths_cli.command(name='backbone', no_args_is_help=True,
+                                   help='evenly spaced particle poses along the annotated path')
 def generate_poses_paths_backbone(
     annotations_directory: Path = typer.Option(...),
     output_star_file: Path = typer.Option(...),
@@ -56,7 +57,7 @@ def generate_poses_paths_backbone(
     df_out = pd.concat(path_dfs)
     console.log(f'Writing {len(df_out)} particles into {output_star_file}...')
     starfile.write({"particles": df_out}, output_star_file, overwrite=True)
-    console.log('Done!')
+    console.log('Done!', style="bold green")
 
 
 def _generate_pose_df_backbone(
