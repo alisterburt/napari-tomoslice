@@ -1,0 +1,19 @@
+# Overview
+
+*napari-tomoslice* is a tool for interactively annotating geometrical structures in cryoET data 
+and generating and exporting poses from these geometrical annotations for further processing.
+
+With *napari-tomoslice* you can
+
+- [**Annotate**](annotate.md) geometrical structures in [*napari*](https://github.com/napari/napari)
+- [**Generate poses**](generate.md) from the geometrical annotations 
+- [**Export poses**](export.md) generated from geometrical annotations
+
+ *napari-tomoslice* allows you to annotate and generate poses from points, spheres, paths (i.e. backbone, helix, rings), and dipoles (i.e. direct, disk),
+and export output compatible with [Relion](https://relion.readthedocs.io/en/release-5.0/) [STAR file format](https://en.wikipedia.org/wiki/Self-defining_Text_Archive_and_Retrieval) or [Dynamo table format](https://www.dynamo-em.org/w/index.php?title=Main_Page)
+
+## Installation
+
+    pip install napari-tomoslice
+
+
