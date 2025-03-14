@@ -1,6 +1,6 @@
 # Annotate
 
-Visualize and interactively annotate geometrical structures in [*napari*](https://github.com/napari/napari)
+Visualize and interactively annotate geometrical structures in cryo-ET data using [*napari*](https://github.com/napari/napari)
 
 ````
  Usage: napari-tomoslice annotate [OPTIONS]                                                                                                                                                                                                      
