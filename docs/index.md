@@ -1,6 +1,6 @@
 # Overview
 
-*napari-tomoslice* is a tool for interactively annotating geometrical structures in cryoET data 
+*napari-tomoslice* is a tool for interactively annotating geometrical structures in cryo-ET data 
 and generating and exporting poses from these geometrical annotations for further processing.
 
 With *napari-tomoslice* you can
