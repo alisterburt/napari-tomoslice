@@ -10,10 +10,10 @@ With *napari-tomoslice* you can
 - [**Export poses**](export.md) for your favourite subtomogram averaging package
 
  *napari-tomoslice* allows you to annotate points, spheres, paths and dipoles. 
- Poses can be sampled in a number of ways from each annotation type, for a complete list see 
- - [path pose generation](./link/here)
- - [dipole pose generation](./link/here)
-and export output compatible with [Relion](https://relion.readthedocs.io/en/release-5.0/) [STAR file format](https://en.wikipedia.org/wiki/Self-defining_Text_Archive_and_Retrieval) or [Dynamo table format](https://www.dynamo-em.org/w/index.php?title=Main_Page)
+ Poses can be sampled in a number of ways from each annotation type, for a complete list see: 
+ [pose generation](generate.md)
+
+Poses can be exported compatible with [Relion](https://relion.readthedocs.io/en/release-5.0/) [STAR file format](https://en.wikipedia.org/wiki/Self-defining_Text_Archive_and_Retrieval) or [Dynamo table format](https://www.dynamo-em.org/w/index.php?title=Main_Page)
 
 ## Installation
 

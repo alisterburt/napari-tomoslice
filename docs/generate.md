@@ -4,6 +4,13 @@ Generate poses from geometrical annotations
 
     napari-tomoslice generate-poses [OPTIONS] COMMAND [ARGS]...   
 
+Poses can be sampled in a number of ways from each annotation type:
+
+- [Points](generate.md#points)
+- [Spheres](generate.md#spheres)
+- [Path](generate.md#paths): [Backbone](generate.md#backbone), [Helix](generate.md#helix), [Rings](generate.md#rings)
+- [Dipoles](generate.md#dipoles): [Direct](generate.md#direct), [Disk](generate.md#disk)
+
 ## Points
 ````
  Usage: napari-tomoslice generate-poses points [OPTIONS]                                                                                                                                                                                         
@@ -34,6 +41,7 @@ Generate poses from geometrical annotations
  
 
 ## Paths
+
     napari-tomoslice generate-poses paths [OPTIONS] COMMAND [ARGS]...  
 
 ### Backbone
