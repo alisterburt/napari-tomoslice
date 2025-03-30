@@ -1,0 +1,17 @@
+site_name: napari-tomoslice
+site_url: https://alisterburt.github.io/napari-tomoslice/
+repo_url: https://github.com/alisterburt/napari-tomoslice
+theme:
+  name: material
+  palette:
+      scheme: default
+      primary: teal
+      accent: teal
+  icon:
+    logo: material/draw
+
+nav:
+  - Overview: index.md
+  - Annotate: annotate.md
+  - Generate Poses: generate.md
+  - Export Poses: export.md
