@@ -6,7 +6,7 @@ from scipy.spatial.transform import Rotation as R
 
 from napari_tomoslice.console import console
 
-def export_poses_dynamo(df: pd.DataFrame, output_file: Path):
+def convert_poses_dynamo(df: pd.DataFrame, output_file: Path):
     console.log('converting star file into Dynamo compatible output...')
     eulers = df[['rot', 'tilt', 'psi']].to_numpy()
     rotation_matrices = R.from_euler(angles=eulers, seq='ZYZ', degrees=True).inv().as_matrix()

@@ -1,1 +1,1 @@
-from .cli import pose_export_cli
+from .cli import pose_convert_cli

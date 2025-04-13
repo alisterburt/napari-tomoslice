@@ -6,7 +6,7 @@ import starfile
 from napari_tomoslice.console import console
 
 
-def export_poses_relion5(df: pd.DataFrame, output_file: Path):
+def convert_poses_relion5(df: pd.DataFrame, output_file: Path):
     console.log('renaming columns for RELION (version 5) compatible output...')
     df.rename(
         columns={
