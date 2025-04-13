@@ -5,8 +5,8 @@ theme:
   name: material
   palette:
       scheme: default
-      primary: teal
-      accent: teal
+      primary: blue
+      accent: blue
   icon:
     logo: material/draw
 

@@ -26,8 +26,10 @@ Visualize and interactively annotate geometrical structures in cryo-ET data usin
 ## Points
 
 ## Spheres
+![Sphere annotation](images/annotate-sphere.png)
 
 ## Paths
 
 ## Dipoles
+![Dipole annotation](images/annotate-dipole.png)
 
