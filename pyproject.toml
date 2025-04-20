@@ -30,7 +30,8 @@ dependencies = [
     "napari-threedee",
     "mrcfile",
     "starfile",
-    "morphosamplers"
+    "morphosamplers",
+    "dynamotable"
 ]
 
 # extras
