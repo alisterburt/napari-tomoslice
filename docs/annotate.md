@@ -4,10 +4,10 @@ Visualize and interactively annotate geometrical structures in cryo-ET data usin
 
 *napari-tomoslice* allows you to quickly annotate
 
-- [Points](annotate.md#points)
-- [Spheres](annotate.md#spheres)
-- [Paths](annotate.md#paths)
-- [Dipoles](annotate.md#dipoles)
+- [Points](points.md#annotate-points)
+- [Spheres](spheres.md#annotate-spheres)
+- [Paths](paths.md#annotate-paths)
+- [Dipoles](dipoles.md#annotate-dipoles)
 
 ````
  Usage: napari-tomoslice annotate [OPTIONS]                                                                                                                                                                                                      
@@ -22,14 +22,4 @@ Visualize and interactively annotate geometrical structures in cryo-ET data usin
 │    --help                                                        Show this message and exit.                                                                                                                                                  │
 ╰───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
 ````
-
-## Points
-
-## Spheres
-![Sphere annotation](images/annotate-sphere.png)
-
-## Paths
-
-## Dipoles
-![Dipole annotation](images/annotate-dipole.png)
 

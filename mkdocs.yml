@@ -14,4 +14,15 @@ nav:
   - Overview: index.md
   - Annotate: annotate.md
   - Generate Poses: generate.md
-  - Export Poses: export.md
+  - Convert Poses: export.md
+  - Examples:
+    - Points: points.md
+    - Spheres: spheres.md
+    - Paths: paths.md
+    - Dipoles: dipoles.md
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.tabbed

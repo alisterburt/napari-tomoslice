@@ -6,10 +6,10 @@ Generate poses from geometrical annotations
 
 Poses can be sampled in a number of ways from each annotation type:
 
-- [Points](generate.md#points)
-- [Spheres](generate.md#spheres)
-- [Path](generate.md#paths): [Backbone](generate.md#backbone), [Helix](generate.md#helix), [Rings](generate.md#rings)
-- [Dipoles](generate.md#dipoles): [Direct](generate.md#direct), [Disk](generate.md#disk)
+- [Points](points.md#generate-poses-from-point-annotations)
+- [Spheres](spheres.md#generate-poses-from-sphere-annotations)
+- [Path](paths.md#generate-poses-from-path-annotations): [Backbone](paths.md#backbone), [Helix](paths.md#helix), [Rings](paths.md#rings)
+- [Dipoles](dipoles.md#generate-poses-from-dipole-annotations): [Direct](dipoles.md#direct-dipole), [Disk](dipoles.md#disk-dipole)
 
 ## Points
 ````
@@ -38,7 +38,6 @@ Poses can be sampled in a number of ways from each annotation type:
 │    --help                                     Show this message and exit.                                                                                                                                                                     │
 ╰───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
 ````
- ![Sphere annotation](images/sphere.png)
 
 ## Paths
 
@@ -106,7 +105,6 @@ Poses can be sampled in a number of ways from each annotation type:
 │    --help                               Show this message and exit.                                                                                                                                                                           │
 ╰───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
 ````
-![Dipole annotation](images/direct.png)
 
 ### Disk
 ````
@@ -122,4 +120,3 @@ Poses can be sampled in a number of ways from each annotation type:
 │    --help                                     Show this message and exit.                                                                                                                                                                     │
 ╰───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
 ````
-![Dipole annotation](images/disk.png)
