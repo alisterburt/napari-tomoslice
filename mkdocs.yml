@@ -9,12 +9,15 @@ theme:
       accent: blue
   icon:
     logo: material/draw
+  features:
+    - navigation.expand
 
 nav:
   - Overview: index.md
-  - Annotate: annotate.md
-  - Generate Poses: generate.md
-  - Convert Poses: export.md
+  - Programs:
+    - annotate: annotate.md
+    - generate-poses: generate.md
+    - convert-poses: export.md
   - Examples:
     - Points: points.md
     - Spheres: spheres.md
