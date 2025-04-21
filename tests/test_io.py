@@ -1,4 +1,11 @@
 import numpy as np
+
+import warnings
+
+# Filter out DeprecationWarnings and UserWarnings
+warnings.filterwarnings("ignore", category=DeprecationWarning)
+warnings.filterwarnings("ignore", category=UserWarning)
+
 from napari_threedee.data_models import (
     N3dPoints,
     N3dPath,
@@ -20,8 +27,8 @@ def test_points_io(tmp_path):
     layer = N3dPoints(data=xyz).as_layer()
 
     # there and back
-    save_points(layer, tmp_path)
-    layer_after_save = load_points(tmp_path)
+    save_points(layer, tmp_path / "points.star")
+    layer_after_save = load_points(tmp_path / "points.star")
 
     assert np.allclose(layer.data, layer_after_save.data, atol=1e-5)
 
@@ -32,8 +39,8 @@ def test_paths_io(tmp_path):
     layer = N3dPaths(data=path_data).as_layer()
 
     # there and back
-    save_paths(layer, tmp_path)
-    layer_after_save = load_paths(tmp_path)
+    save_paths(layer, tmp_path / "paths.star")
+    layer_after_save = load_paths(tmp_path / "paths.star")
 
     assert np.allclose(layer.data, layer_after_save.data, atol=1e-5)
 
@@ -44,7 +51,8 @@ def test_sphere_io(tmp_path):
     layer = N3dSpheres(centers=xyz, radii=radii).as_layer()
 
     # there and back
-    save_spheres(layer, tmp_path)
-    layer_after_save = load_spheres(tmp_path)
+    save_spheres(layer, tmp_path / "spheres.star")
+    layer_after_save = load_spheres(tmp_path / "spheres.star")
+    assert np.allclose(layer.data, layer_after_save.data, atol=1e-5)
 
     assert np.allclose(layer.data, layer_after_save.data, atol=1e-5)
