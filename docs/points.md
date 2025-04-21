@@ -50,7 +50,7 @@ napari-tomoslice generate-poses points --annotations-directory tomograms/annotat
         _x #1
         _y #2
         _z #3
-        _id #4
+        _tilt_series_id #4
         678.774568      341.384876      66.419179       TS_01
         694.346706      407.600310      66.419179       TS_01
         704.173561      318.692324      66.419179       TS_01
@@ -77,7 +77,7 @@ napari-tomoslice export-poses --input-file tomograms/points.star --output-type r
         _rlnCoordinateX #1
         _rlnCoordinateY #2
         _rlnCoordinateZ #3
-        _id #4
+        _rlnTomoName  #4
         678.774568      341.384876      66.419179       TS_01
         694.346706      407.600310      66.419179       TS_01
         704.173561      318.692324      66.419179       TS_01
