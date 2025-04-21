@@ -118,13 +118,13 @@ napari-tomoslice export-poses --input-file tomograms/disk.star --output-type rel
         data_particles
         
         loop_
-        _x #1
-        _y #2
-        _z #3
-        _rot #4
-        _tilt #5
-        _psi #6
-        _tilt_series_id #7
+        _rlnCoordinateX #1
+        _rlnCoordinateY #2
+        _rlnCoordinateZ #3
+        _rlnAngleRot #4
+        _rlnAngleTilt #5
+        _rlnAnglePsi #6
+        _rlnTomoName #7
         368.092987      62.774464       77.000000       -90.000000      90.000000       60.560842       TS_01
         355.029815      55.401978       68.339746       -90.000000      90.000000       60.560842       TS_01
         363.738596      60.316969       68.339746       -90.000000      90.000000       60.560842       TS_01
