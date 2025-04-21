@@ -31,7 +31,7 @@ dependencies = [
     "mrcfile",
     "starfile",
     "morphosamplers",
-    "dynamotable"
+    "dynamotable",
 ]
 
 # extras
@@ -157,6 +157,10 @@ ignore = [
     ".ruff_cache/**/*",
     "tests/**/*",
 ]
+
+# https://docs.astral.sh/uv/reference/settings/#exclude-newer
+[tool.uv]
+exclude-newer = "2025-04-21"
 
 # # for things that require compilation
 # # https://cibuildwheel.readthedocs.io/en/stable/options/
