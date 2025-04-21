@@ -106,3 +106,41 @@ jobs:
         with:
           generate_release_notes: true
           files: './dist/*'
+
+  deploy-docs:
+    name: Deploy
+    if: github.event_name != 'schedule'
+    runs-on: ubuntu-latest
+
+    permissions:
+      # IMPORTANT: this permission is mandatory for trusted publishing on PyPi
+      # see https://docs.pypi.org/trusted-publishers/
+      id-token: write
+      # This permission allows writing releases
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: 🐍 Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Install docs requirements
+        run: |
+          python -m pip install ".[docs]"
+
+      - name: 👷 Build site
+        run: |
+          mkdocs build
+
+      - name: 🚢 Deploy site
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+          external_repository: napari-tomoslice/napari-tomoslice.github.io
+          publish_dir: ./site
+
