@@ -108,7 +108,7 @@ jobs:
           files: './dist/*'
 
   deploy-docs:
-    name: Deploy
+    name: Deploy Docs
     if: github.event_name != 'schedule'
     runs-on: ubuntu-latest
 
@@ -127,7 +127,7 @@ jobs:
       - name: 🐍 Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.x"
+          python-version: "3.12"
 
       - name: Install docs requirements
         run: |
