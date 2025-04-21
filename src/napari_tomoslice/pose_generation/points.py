@@ -21,11 +21,11 @@ def generate_poses_points(
         tilt_series_id = file.stem.rstrip('_points')
         df = starfile.read(file)
         console.log(f'Found {len(df)} particles in {file.name}')
-        df['id'] = [tilt_series_id] * len(df)
+        df['tilt_series_id'] = [tilt_series_id] * len(df)
         dfs.append(df)
 
     df = pd.concat(dfs)
-    sorted_df = df.sort_values('id')
+    sorted_df = df.sort_values('tilt_series_id')
     starfile.write(sorted_df, output_star_file)
     console.log(f'Writing {len(df)} particles into {output_star_file}')
     console.log('Done!', style="bold green")
