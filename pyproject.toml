@@ -49,6 +49,9 @@ dev = [
     "rich",
     "ruff",
 ]
+docs = [
+    "mkdocs-material",
+]
 
 [project.urls]
 homepage = "https://github.com/alisterburt/napari-tomoslice"
