@@ -108,7 +108,7 @@ jobs:
           files: './dist/*'
 
   deploy-docs:
-    name: Deploy
+    name: Deploy Docs
     if: github.event_name != 'schedule'
     runs-on: ubuntu-latest
 
