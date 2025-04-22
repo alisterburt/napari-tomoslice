@@ -1,6 +1,6 @@
 site_name: napari-tomoslice
-site_url: https://alisterburt.github.io/napari-tomoslice/
-repo_url: https://github.com/alisterburt/napari-tomoslice
+site_url: https://napari-tomoslice.github.io/
+repo_url: https://github.com/napari-tomoslice/napari-tomoslice
 theme:
   name: material
   palette:
@@ -11,6 +11,8 @@ theme:
     logo: material/draw
   features:
     - navigation.expand
+    - content.code.copy
+    - content.code.wrap
 
 nav:
   - Overview: index.md
