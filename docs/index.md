@@ -19,11 +19,19 @@ Poses can be easily converted into [Relion](https://relion.readthedocs.io/en/rel
 
 *napari-tomoslice* can be run with [*uvx*](https://github.com/astral-sh/uv)
 
+[*uv*](https://docs.astral.sh/uv/getting-started/installation/#standalone-installer) can be installed with: 
+
+    pip install uv
+
+More information on uvx can be found here on the [*uv documentation*](https://docs.astral.sh/uv/guides/tools/)
+
+The latest version of *napari-tomoslice* can be run with:
+
     uvx --python 3.11 \
     --from git+https://github.com/napari-tomoslice/napari-tomoslice.git \
     napari-tomoslice
 
-More information on uvx can be found here on the [*uvx documentation*](https://docs.astral.sh/uv/guides/tools/)
+
 
 ## Example Data
 
@@ -33,6 +41,16 @@ Data used in the examples can be downloaded from [*zenodo*](https://zenodo.org/r
 
 Results from generate-poses and convert-poses can be visualized with their corresponding tomogram with the example script below.
 
+
+     # /// script
+     # dependencies = [
+     #   "mrcfile",
+     #   "starfile",
+     #   "napari[pyqt5]",
+     #   "numpy",
+     #   "scipy",
+     # ]
+     # ///
     import mrcfile
     import napari
     import numpy as np
