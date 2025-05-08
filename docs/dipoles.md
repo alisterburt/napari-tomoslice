@@ -3,7 +3,10 @@
 ## Annotate Dipoles
 
 ````
-napari-tomoslice annotate --tomogram-directory tomograms/ --annotation-directory tomograms/annotations/ --mode dipoles
+napari-tomoslice annotate \
+--tomogram-directory tomograms/ \
+--annotation-directory tomograms/annotations/ \
+--mode dipoles
 ````
 
 - Load a tomogram using the tomogram browser on the right panel
@@ -50,7 +53,9 @@ napari-tomoslice annotate --tomogram-directory tomograms/ --annotation-directory
 
 ### Direct Dipole
 ````
- napari-tomoslice generate-poses  dipoles direct --annotations-directory tomograms/annotations/ --output-star-file tomograms/direct.star
+ napari-tomoslice generate-poses  dipoles direct \
+ --annotations-directory tomograms/annotations/ \
+ --output-star-file tomograms/direct.star
 ````
   ![Dipole annotation](images/direct.png)
 
@@ -77,8 +82,11 @@ napari-tomoslice annotate --tomogram-directory tomograms/ --annotation-directory
 
 ### Disk Dipole
 ````
-napari-tomoslice generate-poses dipoles disk --annotations-directory tomograms/annotations/ --output-star-file tomograms/disk.star --distance-between-particles 10 --disk-ra
-dius 30
+napari-tomoslice generate-poses dipoles disk \
+--annotations-directory tomograms/annotations/ \
+--output-star-file tomograms/disk.star \
+--distance-between-particles 10 \
+--disk-radius 30
 ````
   ![Dipole annotation](images/disk.png)
 
@@ -109,7 +117,10 @@ dius 30
 
 ## Convert Poses into Relion 5 STAR files
 ````
-napari-tomoslice export-poses --input-file tomograms/disk.star --output-type relion5 --output-file tomograms/disk-relion.star
+napari-tomoslice convert-poses \
+--input-file tomograms/disk.star \
+--output-type relion5 \
+--output-file tomograms/disk-relion.star
 ````
 
 ??? note "Example Relion 5 STAR file for dipole annotation"

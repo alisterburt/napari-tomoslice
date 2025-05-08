@@ -17,15 +17,16 @@ Poses can be easily converted into [Relion](https://relion.readthedocs.io/en/rel
 
 ## Running *napari-tomoslice* 
 
-*napari-tomoslice* can be run with [*uvx*](https://github.com/astral-sh/uv)
+The latest version *napari-tomoslice* can be run with [*uvx*](https://github.com/astral-sh/uv).
 
 [*uv*](https://docs.astral.sh/uv/getting-started/installation/#standalone-installer) can be installed with: 
 
-    pip install uv
+    curl -LsSf https://astral.sh/uv/install.sh | sh
 
-More information on uvx can be found here on the [*uv documentation*](https://docs.astral.sh/uv/guides/tools/)
+!!! question "How to install and use uv ?"
+    More detailed information on [*how to install uv*](https://docs.astral.sh/uv/getting-started/installation/) and [*how to use uvx*](https://docs.astral.sh/uv/guides/tools/) can be found on the [*uv documentation*](https://docs.astral.sh/uv/getting-started/).
 
-The latest version of *napari-tomoslice* can be run with:
+The latest version *napari-tomoslice* can be run with:
 
     uvx --python 3.11 \
     --from git+https://github.com/napari-tomoslice/napari-tomoslice.git \
@@ -33,24 +34,31 @@ The latest version of *napari-tomoslice* can be run with:
 
 
 
-## Example Data
+## Examples
 
+- [Points](points.md)
+- [Spheres](spheres.md)
+- [Path](paths.md): [Backbone](paths.md), [Helix](paths.md), [Rings](paths.md)
+- [Dipoles](dipoles.md): [Direct](dipoles.md), [Disk](dipoles.md)
+
+
+### Example Data
 Data used in the examples can be downloaded from [*zenodo*](https://zenodo.org/records/15259792)
 
 ### Visualize the results 
 
-Results from generate-poses and convert-poses can be visualized with their corresponding tomogram with the example script below.
+Results from generate-poses and convert-poses can be visualized with their corresponding tomogram with the example script below:
 
 
-     # /// script
-     # dependencies = [
-     #   "mrcfile",
-     #   "starfile",
-     #   "napari[pyqt5]",
-     #   "numpy",
-     #   "scipy",
-     # ]
-     # ///
+    # /// script
+    # dependencies = [
+    #   "mrcfile",
+    #   "starfile",
+    #   "napari[pyqt5]",
+    #   "numpy",
+    #   "scipy",
+    # ]
+    # ///
     import mrcfile
     import napari
     import numpy as np

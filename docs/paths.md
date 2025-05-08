@@ -3,7 +3,10 @@
 ## Annotate Paths
 
 ````
-napari-tomoslice annotate --tomogram-directory tomograms/ --annotation-directory tomograms/annotations/ --mode paths
+napari-tomoslice annotate \
+--tomogram-directory tomograms/ \
+--annotation-directory tomograms/annotations/ \
+--mode paths
 ````
 
 - Load a tomogram using the tomogram browser on the right panel
@@ -52,7 +55,10 @@ napari-tomoslice annotate --tomogram-directory tomograms/ --annotation-directory
 
 ### Backbone
 ````
-napari-tomoslice generate-poses paths backbone --annotations-directory tomograms/annotations/ --output-star-file tomograms/backbone.star --distance-between-particles 20
+napari-tomoslice generate-poses paths backbone \
+--annotations-directory tomograms/annotations/ \
+--output-star-file tomograms/backbone.star \
+--distance-between-particles 20
 ````
 
   ![Path annotation](images/backbone.png)
@@ -90,12 +96,21 @@ napari-tomoslice generate-poses paths backbone --annotations-directory tomograms
 
 ### Helix
 ````
-napari-tomoslice generate-poses paths helix --annotations-directory tomograms/annotations/ --output-star-file tomograms/helix.star --distance-between-particles 30 --twist 30
+napari-tomoslice generate-poses paths helix \
+--annotations-directory tomograms/annotations/ \
+--output-star-file tomograms/helix.star \
+--distance-between-particles 30 \
+--twist 30
 ````
 
 ### Rings
 ````
-napari-tomoslice generate-poses paths rings --annotations-directory tomograms/annotations/ --output-star-file tomograms/rings.star --distance-between-particles 30 --number-of-points-per-ring 20 --ring-radius 30
+napari-tomoslice generate-poses paths rings \
+--annotations-directory tomograms/annotations/ \
+--output-star-file tomograms/rings.star \
+--distance-between-particles 30 \
+--number-of-points-per-ring 20 \
+--ring-radius 30
 ````
 
   ![Path annotation](images/rings.png)
@@ -128,7 +143,10 @@ napari-tomoslice generate-poses paths rings --annotations-directory tomograms/an
 
 ## Convert Poses into Relion 5 STAR files
 ````
-napari-tomoslice export-poses --input-file tomograms/backbone.star --output-type relion5 --output-file tomograms/backbone-relion.star
+napari-tomoslice convert-poses \
+--input-file tomograms/backbone.star \
+--output-type relion5 \
+--output-file tomograms/backbone-relion.star
 ````
 
 ??? note "Example Relion 5 STAR file for path annotation"
