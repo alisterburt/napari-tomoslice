@@ -2,7 +2,10 @@
 
 ## Annotate Spheres
 ````
-napari-tomoslice annotate --tomogram-directory tomograms/ --annotation-directory tomograms/annotations/ --mode spheres
+napari-tomoslice annotate \
+--tomogram-directory tomograms/ \
+--annotation-directory tomograms/annotations/ \
+--mode spheres
 ````
 
 - Load a tomogram using the tomogram browser on the right panel
@@ -42,7 +45,10 @@ napari-tomoslice annotate --tomogram-directory tomograms/ --annotation-directory
 
 ## Generate Poses from Sphere Annotations
 ````
-napari-tomoslice generate-poses spheres --annotations-directory tomograms/annotations/ --output-star-file tomograms/spheres.star --distance-between-particles 10
+napari-tomoslice generate-poses spheres \
+--annotations-directory tomograms/annotations/ \
+--output-star-file tomograms/spheres.star \
+--distance-between-particles 10
 ````
 
  ![Sphere annotation](images/spheres.png)
@@ -85,7 +91,10 @@ napari-tomoslice generate-poses spheres --annotations-directory tomograms/annota
 
 ## Convert Poses into Relion 5 STAR files
 ````
-napari-tomoslice convert-poses --input-file tomograms/spheres.star --output-type relion5 --output-file tomograms/spheres-relion.star
+napari-tomoslice convert-poses \
+--input-file tomograms/spheres.star \
+--output-type relion5 \
+--output-file tomograms/spheres-relion.star
 ````
 ??? note "Example Relion 5 STAR file for sphere annotation"
     === "spheres-relion.star"

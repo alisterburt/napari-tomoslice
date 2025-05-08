@@ -2,7 +2,10 @@
 
 ## Annotate Points
 ````
-napari-tomoslice annotate --tomogram-directory tomograms/ --annotation-directory tomograms/annotations/ --mode points
+napari-tomoslice annotate \
+--tomogram-directory tomograms/ \
+--annotation-directory tomograms/annotations/ \
+--mode points
 ````
 
 - Load a tomogram using the tomogram browser on the right panel
@@ -39,7 +42,9 @@ napari-tomoslice annotate --tomogram-directory tomograms/ --annotation-directory
 
 ## Generate Poses from Point Annotations
 ````
-napari-tomoslice generate-poses points --annotations-directory tomograms/annotations/ --output-star-file tomograms/points.star
+napari-tomoslice generate-poses points \
+--annotations-directory tomograms/annotations/ \
+--output-star-file tomograms/points.star
 ````
 ??? note "Example poses STAR file for point annotation"
     === "points.star"
@@ -66,7 +71,10 @@ napari-tomoslice generate-poses points --annotations-directory tomograms/annotat
 
 ### Convert Poses into Relion 5 STAR files
 ````
-napari-tomoslice export-poses --input-file tomograms/points.star --output-type relion5 --output-file tomograms/points-relion.star
+napari-tomoslice convert-poses \
+--input-file tomograms/points.star \
+--output-type relion5 \
+--output-file tomograms/points-relion.star
 ````
 ??? note "Example Relion 5 STAR file for point annotation"
     === "points-relion.star"
