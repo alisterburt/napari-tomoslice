@@ -157,13 +157,13 @@ class TomoSliceApplication:
         self.viewer.layers.selection = [self.viewer.layers[TOMOGRAM_LAYER_NAME]]
 
     def remove_non_tomogram_layers(self):
-        if self.annotator is not None:
-            self.annotator.enabled = False
-            self.annotator = None
-
-        for layer in list(self.viewer.layers):
-            if layer.name != TOMOGRAM_LAYER_NAME:
-                self.viewer.layers.remove(layer)
+        # add outer loop to workaround bug which prevents removal
+        # probable cause: layer indices aren't updated properly in napari when layers are removed
+        # this is fine...
+        for i in range(10):
+            for layer in self.viewer.layers:
+                if layer.name != TOMOGRAM_LAYER_NAME:
+                    self.viewer.layers.remove(layer)
 
     def load_annotation(self, path: Path, *args, **kwargs):
         # get annotation type
