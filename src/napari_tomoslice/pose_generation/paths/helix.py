@@ -14,10 +14,21 @@ from .cli import pose_generation_paths_cli
 @pose_generation_paths_cli.command(name='helix', no_args_is_help=True,
                                    help='evenly spaced particle poses along the annotated helical path')
 def generate_poses_paths_helix(
-    annotations_directory: Path = typer.Option(...),
-    output_star_file: Path = typer.Option(...),
-    distance_between_particles: float = typer.Option(...),
-    twist: float = typer.Option(...),
+    annotations_directory: Path = typer.Option(...,
+                                               "--annotation-directory", "-a",
+                                               help="directory containing annotations"
+                                               ),
+    output_star_file: Path = typer.Option(...,
+                                          "--output-star-file", "-o",
+                                          help="output star file name"
+                                          ),
+    distance_between_particles: float = typer.Option(...,
+                                                     "--distance_between_particles", "-d",
+                                                     help="distance between particles along the backbone"
+                                                     ),
+    twist: float = typer.Option(...,
+                                "--twist", "-t",
+                                help="helical twist"),
 ):
     annotation_files = list(annotations_directory.glob('*_paths.star'))
     console.log(f'Found {len(annotation_files)} files in {annotations_directory}')

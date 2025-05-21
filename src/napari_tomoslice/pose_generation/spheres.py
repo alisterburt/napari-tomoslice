@@ -15,9 +15,18 @@ from napari_tomoslice.console import console
 @pose_generation_cli.command(name='spheres', no_args_is_help=True,
                              help='generate particle poses from sphere annotations')
 def generate_poses_spheres(
-    annotations_directory: Path = typer.Option(...),
-    output_star_file: Path = typer.Option(...),
-    distance_between_particles: float = typer.Option(...),
+    annotations_directory: Path = typer.Option(...,
+                                               "--annotation-directory", "-a",
+                                               help="directory containing annotations"
+                                               ),
+    output_star_file: Path = typer.Option(...,
+                                          "--output-star-file", "-o",
+                                          help="output star file name"
+                                          ),
+    distance_between_particles: float = typer.Option(...,
+                                                     "--distance_between_particles", "-d",
+                                                     help="distance between particles on the sphere"
+                                                     ),
 ):
     annotation_files = list(annotations_directory.glob('*_spheres.star'))
     console.log(f'Found {len(annotation_files)} files in {annotations_directory}')

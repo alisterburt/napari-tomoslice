@@ -11,8 +11,14 @@ from napari_tomoslice.console import console
 @pose_generation_cli.command(name='points', no_args_is_help=True,
                              help='generate particle poses from point annotations')
 def generate_poses_points(
-    annotations_directory: Path = typer.Option(...),
-    output_star_file: Path = typer.Option(...),
+    annotations_directory: Path = typer.Option(...,
+                                               "--annotation-directory", "-a",
+                                               help="directory containing annotations"
+                                               ),
+    output_star_file: Path = typer.Option(...,
+                                          "--output-star-file", "-o",
+                                          help="output star file name"
+                                          ),
 ):
     annotation_files = list(annotations_directory.glob('*_points.star'))
     console.log(f'Found {len(annotation_files)} files in {annotations_directory}')

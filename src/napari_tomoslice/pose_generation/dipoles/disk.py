@@ -16,10 +16,20 @@ from .cli import pose_generation_dipoles_cli as pose_generation_dipoles_cli
 @pose_generation_dipoles_cli.command(name='disk', no_args_is_help=True,
                                      help='particle poses on a disk around the annotated dipoles')
 def generate_poses_dipoles_disk(
-    annotations_directory: Path = typer.Option(...),
-    output_star_file: Path = typer.Option(...),
-    distance_between_particles: float = typer.Option(...),
-    disk_radius: float = typer.Option(...)
+    annotations_directory: Path = typer.Option(...,
+                                               "--annotation-directory", "-a",
+                                               help="directory containing annotations"
+                                               ),
+    output_star_file: Path = typer.Option(...,
+                                          "--output-star-file", "-o",
+                                          help="output star file name"
+                                          ),
+    distance_between_particles: float = typer.Option(...,
+                                                     "--distance_between_particles", "-d",
+                                                     help="distance between particles on the disk"),
+    disk_radius: float = typer.Option(...,
+                                      "--disk_radius", "-r",
+                                      help="radius of the disk")
 ):
     annotation_files = list(annotations_directory.glob('*_dipoles.star'))
     console.log(f'Found {len(annotation_files)} files in {annotations_directory}')

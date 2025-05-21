@@ -15,9 +15,17 @@ class OutputType(Enum):
 
 
 def pose_convert_cli(
-    input_file: Path = typer.Option(...),
-    output_type: OutputType = typer.Option(...),
-    output_file: Path = typer.Option(...)
+    input_file: Path = typer.Option(...,
+                                    "--input_file", "-i",
+                                    help="input star file name"),
+    output_type: OutputType = typer.Option(...,
+                                           "--output_type", "-t",
+                                           help="target format for the conversion"
+                                           ),
+    output_file: Path = typer.Option(...,
+                                     "--output_file", "-o",
+                                     help="output file name"
+                                     )
 ) -> None:
     try:
         df = starfile.read(input_file)

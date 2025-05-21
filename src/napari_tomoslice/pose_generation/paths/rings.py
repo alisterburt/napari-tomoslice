@@ -15,11 +15,24 @@ from .cli import pose_generation_paths_cli
 @pose_generation_paths_cli.command(name='rings', no_args_is_help=True,
                                    help='particle poses on evenly spaced rings along the annotated path')
 def generate_poses_paths_rings(
-    annotations_directory: Path = typer.Option(...),
-    output_star_file: Path = typer.Option(...),
-    distance_between_particles: float = typer.Option(...),
-    number_of_points_per_ring: int = typer.Option(...),
-    ring_radius: float = typer.Option(...)
+    annotations_directory: Path = typer.Option(...,
+                                               "--annotation-directory", "-a",
+                                               help="directory containing annotations"
+                                               ),
+    output_star_file: Path = typer.Option(...,
+                                          "--output-star-file", "-o",
+                                          help="output star file name"
+                                          ),
+    distance_between_particles: float = typer.Option(...,
+                                                     "--distance_between_particles", "-d",
+                                                     help="distance between rings along the backbone"
+                                                     ),
+    number_of_points_per_ring: int = typer.Option(...,
+                                                  "--number_of_points_per_ring", "-n",
+                                                  help="number of particles to be placed on each ring"),
+    ring_radius: float = typer.Option(...,
+                                      "--ring_radius", "-r",
+                                      help="radius of the ring")
 
 ):
     annotation_files = list(annotations_directory.glob('*_paths.star'))

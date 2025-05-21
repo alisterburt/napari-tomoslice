@@ -7,10 +7,10 @@ Usage: napari-tomoslice convert-poses [OPTIONS]
  convert particle poses generated from geometrical annotations                                                                                                                                                                                    
                                                                                                                                                                                                                                                  
 ╭─ Options ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
-│ *  --input-file         PATH              [default: None] [required]                                                                                                                                                                          │
-│ *  --output-type        [relion5|dynamo]  [default: None] [required]                                                                                                                                                                          │
-│ *  --output-file        PATH              [default: None] [required]                                                                                                                                                                          │
-│    --help                                 Show this message and exit.                                                                                                                                                                         │
+│ *  --input_file   -i      PATH              input star file name [default: None] [required]                                                                                                                                                   │
+│ *  --output_type  -t      [relion5|dynamo]  target format for the conversion [default: None] [required]                                                                                                                                       │
+│ *  --output_file  -o      PATH              output file name [default: None] [required]                                                                                                                                                       │
+│    --help                                   Show this message and exit.                                                                                                                                                                  │
 ╰───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
 ````
 
