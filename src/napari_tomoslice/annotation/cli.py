@@ -15,10 +15,19 @@ current_time = datetime.now()
 datetime_string = current_time.strftime("%Y_%m_%d_%H:%M:%S")
 
 def annotation_cli(
-    tomogram_directory: Path = None,
-    file_pattern: str = typer.Option('*.mrc'),
-    annotation_directory: Path = typer.Option(default=datetime_string),
-    mode: AnnotationMode = typer.Option(..., show_default=False),
+    tomogram_directory: Path = typer.Option(None,
+                                            "--tomogram-directory", "-t",
+                                            help="directory containing tomograms"),
+    file_pattern: str = typer.Option('*.mrc',
+                                     "--file-pattern", "-p",
+                                     help="file pattern of tomograms"),
+    annotation_directory: Path = typer.Option(datetime_string,
+                                            "--annotation-directory", "-a",
+                                            help="directory to save annotations"),
+    mode: AnnotationMode = typer.Option(...,
+                                        "--mode", "-m",
+                                        help="annotation mode",
+                                        show_default=False),
 ):
     console.log('starting napari-tomoslice')
 
