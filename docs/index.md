@@ -17,7 +17,9 @@ Poses can be easily converted into [Relion](https://relion.readthedocs.io/en/rel
 
 ## Running *napari-tomoslice* 
 
-The latest version *napari-tomoslice* can be run with [*uvx*](https://github.com/astral-sh/uv).
+*napari-tomoslice* can simply be run using [*uvx*](https://github.com/astral-sh/uv) with:
+
+    uvx napari-tomoslice
 
 [*uv*](https://docs.astral.sh/uv/getting-started/installation/#standalone-installer) can be installed with: 
 
@@ -25,13 +27,6 @@ The latest version *napari-tomoslice* can be run with [*uvx*](https://github.com
 
 !!! question "How to install and use uv ?"
     More detailed information on [*how to install uv*](https://docs.astral.sh/uv/getting-started/installation/) and [*how to use uvx*](https://docs.astral.sh/uv/guides/tools/) can be found on the [*uv documentation*](https://docs.astral.sh/uv/getting-started/).
-
-The latest version *napari-tomoslice* can be run with:
-
-    uvx --python 3.11 \
-    --from git+https://github.com/napari-tomoslice/napari-tomoslice.git \
-    napari-tomoslice
-
 
 
 ## Examples
